@@ -1,0 +1,1266 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Osobnostní dotazníky</title>
+<style>
+:root{
+  --bg:#f6f5f1; --card:#ffffff; --text:#1f2328; --muted:#5f6670; --line:#e3e1da;
+  --accent:#2f5d8a; --accent-soft:#e6eef6; --accent-text:#ffffff;
+  --track:#ebe9e3; --radius:14px;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#16181b; --card:#1f2226; --text:#e8e6e1; --muted:#a3a8b0; --line:#30343a;
+    --accent:#7fb0e0; --accent-soft:#25313d; --accent-text:#10151b;
+    --track:#2c3036; --shadow:none;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.topbar{max-width:720px;margin:0 auto;padding:12px 16px 0;display:flex;justify-content:flex-end}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.lang button{font:inherit;font-size:.8rem;font-weight:600;letter-spacing:.04em;border:none;background:none;color:var(--muted);padding:.35em .9em;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--accent-text)}
+main{max-width:720px;margin:0 auto;padding:8px 16px 48px}
+h1{font-size:1.75rem;line-height:1.2;margin:.2em 0 .4em}
+h2{font-size:1.25rem;margin:0 0 .3em}
+p{margin:.5em 0}
+.muted{color:var(--muted)}
+.small{font-size:.875rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin:16px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4em;font:inherit;font-weight:600;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);padding:.65em 1.1em;cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-text)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.link{border:none;background:none;padding:.4em 0;color:var(--accent);font-weight:500}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+label.field{display:block;margin:16px 0}
+label.field > span{display:block;font-weight:600;margin-bottom:6px}
+label.field > span span{font-weight:400}
+input[type=text]{width:100%;font:inherit;padding:.6em .8em;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text)}
+input[type=text]:focus{outline:2px solid var(--accent);outline-offset:1px}
+ul.clean{padding-left:1.2em;margin:.5em 0}
+.note{background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:.92rem}
+
+/* Otázky */
+.qtop{display:flex;justify-content:space-between;align-items:center;font-size:.9rem;color:var(--muted)}
+.progress{height:8px;background:var(--track);border-radius:99px;overflow:hidden;margin:10px 0 0}
+.progress > div{height:100%;background:var(--accent);border-radius:99px;transition:width .25s}
+.qtext{font-size:1.35rem;line-height:1.4;font-weight:600;margin:28px 0 22px;min-height:3.8em}
+.options{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;font:inherit;padding:14px 16px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;transition:border-color .12s,background .12s}
+.opt:hover{border-color:var(--accent)}
+.opt .num{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.9rem;background:var(--track)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-pressed="true"] .num{background:var(--accent);color:var(--accent-text)}
+.qnav{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.kbd-hint{text-align:center;margin-top:18px}
+@media (hover:none){.kbd-hint{display:none}}
+
+/* Výsledky */
+.factor-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.factor-head .score{font-size:1.6rem;font-weight:700;font-variant-numeric:tabular-nums}
+.level{font-size:.85rem;color:var(--muted)}
+.bar{position:relative;height:14px;background:var(--track);border-radius:99px;margin:12px 0 4px}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:99px}
+.bar .mid{position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:var(--muted);opacity:.5}
+.ticks{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted)}
+.poles{margin:14px 0 4px;display:grid;gap:6px;font-size:.92rem}
+.pole{color:var(--muted)}
+.pole b{color:var(--text);font-weight:600}
+.pole.on{color:var(--text)}
+.pole.on::before{content:"● ";color:var(--accent)}
+details{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+summary{cursor:pointer;font-weight:600;font-size:.92rem;color:var(--accent)}
+.facet{display:grid;grid-template-columns:minmax(120px,1.1fr) 2fr 3em;gap:10px;align-items:center;margin:10px 0;font-size:.9rem}
+.facet .sub{color:var(--muted);font-size:.78rem;display:block}
+.facet .bar{height:8px;margin:0}
+.facet .val{text-align:right;font-variant-numeric:tabular-nums}
+.results-actions{padding:12px 0 8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.9rem;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+footer{margin-top:40px;font-size:.8rem;color:var(--muted);text-align:center}
+
+@media print{
+  body{background:#fff;color:#000;font-size:11pt}
+  main{max-width:none;padding:0}
+  .card{box-shadow:none;break-inside:avoid;border-color:#bbb}
+  .no-print,.results-actions,.toast,.topbar{display:none!important}
+  .bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  summary{color:#000}
+}
+</style>
+</head>
+<body>
+<header class="topbar no-print">
+  <div class="lang" role="group" aria-label="Jazyk / Language">
+    <button data-lang="cs" aria-pressed="false">CZ</button>
+    <button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+<main id="app"></main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =====================================================================
+   DOTAZNÍKY / QUESTIONNAIRES
+   Každý dotazník je jeden objekt v TESTS. Texty jsou ve tvaru {cs:…, en:…}.
+   - items: výroky v pořadí (pozice = číslo položky 1..n), pro každý jazyk
+   - scale: možnosti odpovědí (hodnoty 1..k)
+   - factors: dimenze -> facety -> položky ("30R" = obráceně skórovaná)
+   ===================================================================== */
+
+const LIKERT5 = [
+  {v:1, label:{cs:'Rozhodně nesouhlasím', en:'Strongly disagree'}},
+  {v:2, label:{cs:'Nesouhlasím',          en:'Disagree'}},
+  {v:3, label:{cs:'Neutrální',            en:'Neutral'}},
+  {v:4, label:{cs:'Souhlasím',            en:'Agree'}},
+  {v:5, label:{cs:'Rozhodně souhlasím',   en:'Strongly agree'}}
+];
+
+const ACCURACY5 = [
+  {v:1, label:{cs:'Vůbec mě nevystihuje',  en:'Very inaccurate'}},
+  {v:2, label:{cs:'Spíše mě nevystihuje',  en:'Moderately inaccurate'}},
+  {v:3, label:{cs:'Ani ano, ani ne',       en:'Neither accurate nor inaccurate'}},
+  {v:4, label:{cs:'Spíše mě vystihuje',    en:'Moderately accurate'}},
+  {v:5, label:{cs:'Zcela mě vystihuje',    en:'Very accurate'}}
+];
+
+const TESTS = {
+  hexaco60: {
+    id: 'hexaco60',
+    title: 'HEXACO-60',
+    subtitle: {cs:'Šest základních dimenzí osobnosti', en:'Six basic dimensions of personality'},
+    about: {
+      cs:'Krátká verze osobnostního inventáře HEXACO. Měří poctivost-pokoru, emocionalitu, extraverzi, přívětivost, svědomitost a otevřenost vůči zkušenosti.',
+      en:'The short version of the HEXACO Personality Inventory. It measures honesty-humility, emotionality, extraversion, agreeableness, conscientiousness and openness to experience.'
+    },
+    duration: {cs:'cca 10–15 minut', en:'about 10–15 minutes'},
+    credit: {
+      cs:'HEXACO-60 © Kibeom Lee & Michael C. Ashton (hexaco.org). Použito pro nekomerční vzdělávací účely.',
+      en:'HEXACO-60 © Kibeom Lee & Michael C. Ashton (hexaco.org). Used for non-commercial educational purposes.'
+    },
+    scale: LIKERT5,
+    instructions: {
+      cs:[
+        'Najdete zde 60 výroků. U každého zvolte, nakolik s ním souhlasíte.',
+        'Odpovídejte podle toho, jací opravdu jste – ne jací byste chtěli být nebo jak by vás chtěli vidět ostatní.',
+        'Nejsou tu správné ani špatné odpovědi. Nepřemýšlejte nad jedním výrokem příliš dlouho, první odpověď bývá nejpřesnější.',
+        'Odpovězte prosím na všechny výroky, i když si u některých nejste úplně jistí.'
+      ],
+      en:[
+        'You will find 60 statements about yourself. For each one, choose how much you agree with it.',
+        'Answer according to how you really are – not how you would like to be or how others would like to see you.',
+        'There are no right or wrong answers. Don’t think too long about any one statement; your first answer is usually the most accurate.',
+        'Please respond to every statement, even if you are not completely sure.'
+      ]
+    },
+    items: {
+      cs: [
+        'Návštěva umělecké galerie by mě zřejmě nudila.',
+        'Plánuji dopředu a organizuji věci, abych se vyhnul/a honičce na poslední chvíli.',
+        'Jen vzácně chovám zášť vůči lidem, kteří mi hodně ukřivdili.',
+        'Celkově jsem se sebou přiměřeně spokojený/á.',
+        'Bál/a bych se, kdybych musel/a cestovat ve špatném počasí.',
+        'Neužil/a bych lichocení k tomu, abych dosáhl/a zvýšení platu nebo povýšení v práci, i kdybych si myslel/a, že tím uspěji.',
+        'Zajímám se o poznávání historie a politiky ostatních zemí.',
+        'Často vynakládám velké úsilí, když se snažím dosáhnout nějakého cíle.',
+        'Lidé mi občas říkají, že jsem k ostatním příliš kritický/á.',
+        'Zřídka vyjadřuji své názory na skupinových schůzkách.',
+        'Někdy se neubráním obavám z maličkostí.',
+        'Kdybych věděl/a, že mě nikdy nechytí, byl/a bych ochoten/a ukrást 10 milionů korun.',
+        'Těšilo by mě vytváření uměleckého díla, jako například románu, písně nebo malby.',
+        'Když na něčem pracuji, nevěnuji moc pozornosti malým detailům.',
+        'Lidé mi občas říkají, že jsem příliš tvrdohlavý/á.',
+        'Raději pracuji s lidmi než o samotě.',
+        'Když jsem prožil/a bolestný zážitek, potřebuji někoho, abych se cítil/a lépe.',
+        'Není pro mě obzvláště důležité mít hodně peněz.',
+        'Věnovat pozornost extrémním (radikálním) názorům je ztráta času.',
+        'Dělám rozhodnutí spíše na základě aktuálních pocitů než po pečlivé úvaze.',
+        'Lidé si o mně myslí, že mám prudkou povahu.',
+        'Po většinu dní se cítím veselý/á a optimistický/á.',
+        'Je mi do pláče, když vidím ostatní lidi plakat.',
+        'Myslím si, že mám nárok na víc respektu než průměrný člověk.',
+        'Kdybych měl/a příležitost, rád/a bych navštívil/a koncert klasické hudby.',
+        'Když pracuji, mám někdy problémy kvůli svému neorganizovanému přístupu.',
+        'Můj postoj k lidem, kteří se mnou špatně jednali, je „odpusť a zapomeň“.',
+        'Mám pocit, že jsem nepopulární člověk.',
+        'Když přijde na fyzické nebezpečí, jsem velmi vystrašený/á.',
+        'Pokud od někoho něco chci, budu se smát jeho nejhorším vtipům.',
+        'Nikdy mě opravdu nebavilo prohlížení encyklopedie.',
+        'Dělám pouze minimální množství potřebné práce, abych obstál/a.',
+        'Při posuzování druhých lidí bývám velmi shovívavý/á.',
+        'Ve společenských situacích jsem obvykle tím, kdo dělá první krok.',
+        'Strachuji se mnohem méně než většina lidí.',
+        'Nikdy bych nepřijal/a úplatek, ani kdyby byl velmi vysoký.',
+        'Lidé mi často říkají, že mám dobrou představivost.',
+        'Vždycky se snažím být při práci přesný/á, i na úkor času.',
+        'Pokud se mnou lidé nesouhlasí, celkem pružně své názory měním.',
+        'První věc, kterou vždy dělám na novém místě, je nalezení nových přátel.',
+        'Dovedu zvládnout obtížné situace bez potřeby emoční podpory od někoho jiného.',
+        'Velmi by mě těšilo vlastnit drahé, luxusní zboží.',
+        'Mám rád/a lidi, kteří mají neobvyklé názory.',
+        'Dělám mnoho chyb, protože nepřemýšlím předtím, než jednám.',
+        'Většina lidí má tendenci se rozčílit rychleji než já.',
+        'Většina lidí je pozitivnější a dynamičtější, než jsem obvykle já.',
+        'Cítím silné emoce, když někdo mně blízký odjíždí na dlouhou dobu.',
+        'Chci, aby lidé věděli, že jsem důležitá osoba s vysokým postavením.',
+        'Nemyslím si o sobě, že jsem umělecký nebo tvůrčí typ.',
+        'Lidé mě často nazývají perfekcionistou.',
+        'I když lidé dělají hodně chyb, jen zřídka řeknu něco negativního.',
+        'Občas mám pocit, že jsem bezcenný člověk.',
+        'Nepropadal/a bych panice ani ve stavu nouze.',
+        'Nepředstíral/a bych, že mám někoho rád jen proto, aby mně dotyčný prokázal laskavost.',
+        'Diskuze o filozofii pokládám za nudné.',
+        'Raději dělám cokoli, co mě právě napadne, než abych se držel/a plánu.',
+        'Když mi lidé říkají, že se mýlím, mou první reakcí je dohadovat se s nimi.',
+        'Ve skupině lidí jsem často tím, kdo mluví za celou skupinu.',
+        'Zůstávám bez emocí i v situacích, ve kterých se většina lidí stává velmi sentimentálními.',
+        'Byl/a bych v pokušení použít padělané peníze, kdybych si byl/a jistý/á, že mi to projde.'
+      ],
+      en: [
+        "I would be quite bored by a visit to an art gallery.",
+        "I plan ahead and organize things, to avoid scrambling at the last minute.",
+        "I rarely hold a grudge, even against people who have badly wronged me.",
+        "I feel reasonably satisfied with myself overall.",
+        "I would feel afraid if I had to travel in bad weather conditions.",
+        "I wouldn't use flattery to get a raise or promotion at work, even if I thought it would succeed.",
+        "I'm interested in learning about the history and politics of other countries.",
+        "I often push myself very hard when trying to achieve a goal.",
+        "People sometimes tell me that I am too critical of others.",
+        "I rarely express my opinions in group meetings.",
+        "I sometimes can't help worrying about little things.",
+        "If I knew that I could never get caught, I would be willing to steal a million dollars.",
+        "I would enjoy creating a work of art, such as a novel, a song, or a painting.",
+        "When working on something, I don't pay much attention to small details.",
+        "People sometimes tell me that I'm too stubborn.",
+        "I prefer jobs that involve active social interaction to those that involve working alone.",
+        "When I suffer from a painful experience, I need someone to make me feel comfortable.",
+        "Having a lot of money is not especially important to me.",
+        "I think that paying attention to radical ideas is a waste of time.",
+        "I make decisions based on the feeling of the moment rather than on careful thought.",
+        "People think of me as someone who has a quick temper.",
+        "On most days, I feel cheerful and optimistic.",
+        "I feel like crying when I see other people crying.",
+        "I think that I am entitled to more respect than the average person is.",
+        "If I had the opportunity, I would like to attend a classical music concert.",
+        "When working, I sometimes have difficulties due to being disorganized.",
+        "My attitude toward people who have treated me badly is \"forgive and forget\".",
+        "I feel that I am an unpopular person.",
+        "When it comes to physical danger, I am very fearful.",
+        "If I want something from someone, I will laugh at that person's worst jokes.",
+        "I've never really enjoyed looking through an encyclopedia.",
+        "I do only the minimum amount of work needed to get by.",
+        "I tend to be lenient in judging other people.",
+        "In social situations, I'm usually the one who makes the first move.",
+        "I worry a lot less than most people do.",
+        "I would never accept a bribe, even if it were very large.",
+        "People have often told me that I have a good imagination.",
+        "I always try to be accurate in my work, even at the expense of time.",
+        "I am usually quite flexible in my opinions when people disagree with me.",
+        "The first thing that I always do in a new place is to make friends.",
+        "I can handle difficult situations without needing emotional support from anyone else.",
+        "I would get a lot of pleasure from owning expensive luxury goods.",
+        "I like people who have unconventional views.",
+        "I make a lot of mistakes because I don't think before I act.",
+        "Most people tend to get angry more quickly than I do.",
+        "Most people are more upbeat and dynamic than I generally am.",
+        "I feel strong emotions when someone close to me is going away for a long time.",
+        "I want people to know that I am an important person of high status.",
+        "I don't think of myself as the artistic or creative type.",
+        "People often call me a perfectionist.",
+        "Even when people make a lot of mistakes, I rarely say anything negative.",
+        "I sometimes feel that I am a worthless person.",
+        "Even in an emergency I wouldn't feel like panicking.",
+        "I wouldn't pretend to like someone just to get that person to do favors for me.",
+        "I find it boring to discuss philosophy.",
+        "I prefer to do whatever comes to mind, rather than stick to a plan.",
+        "When people tell me that I'm wrong, my first reaction is to argue with them.",
+        "When I'm in a group of people, I'm often the one who speaks on behalf of the group.",
+        "I remain unemotional even in situations where most people get very sentimental.",
+        "I'd be tempted to use counterfeit money, if I were sure I could get away with it."
+      ]
+    },
+    factors: [
+      { id:'H', name:'Poctivost-pokora', en:'Honesty-Humility',
+        high:{cs:'Jednají upřímně a férově, nemanipulují druhými kvůli vlastnímu prospěchu, nelákají je luxus ani společenské postavení.',
+              en:'They are sincere and fair, avoid manipulating others for personal gain, and are not drawn to luxury or social status.'},
+        low:{cs:'Jsou ochotni lichotit nebo ohýbat pravidla, když z toho mají užitek; záleží jim na bohatství a pocitu vlastní důležitosti.',
+             en:'They are willing to flatter others or bend the rules when it pays off, and they care about wealth and feeling important.'},
+        facets:[
+          {name:'Upřímnost', en:'Sincerity', items:'6 30R 54'},
+          {name:'Férovost', en:'Fairness', items:'12R 36 60R'},
+          {name:'Nehamižnost', en:'Greed Avoidance', items:'18 42R'},
+          {name:'Skromnost', en:'Modesty', items:'24R 48R'}
+        ]},
+      { id:'E', name:'Emocionalita', en:'Emotionality',
+        high:{cs:'Více se obávají fyzického nebezpečí, ve stresu prožívají úzkost, hledají oporu u druhých a mají silná citová pouta.',
+              en:'They are more fearful of physical danger, feel anxious under stress, seek support from others and form strong emotional bonds.'},
+        low:{cs:'Fyzického nebezpečí se tolik nebojí, ve stresu zůstávají klidní, spoléhají spíš sami na sebe a jsou citově zdrženlivější.',
+             en:'They are less afraid of physical danger, stay calm under stress, rely more on themselves and are emotionally more reserved.'},
+        facets:[
+          {name:'Bojácnost', en:'Fearfulness', items:'5 29 53R'},
+          {name:'Úzkostnost', en:'Anxiety', items:'11 35R'},
+          {name:'Závislost na druhých', en:'Dependence', items:'17 41R'},
+          {name:'Sentimentalita', en:'Sentimentality', items:'23 47 59R'}
+        ]},
+      { id:'X', name:'Extraverze', en:'Extraversion',
+        high:{cs:'Ve společnosti si věří, rádi mluví za skupinu a vedou ji, vyhledávají kontakt s lidmi a bývají plní energie.',
+              en:'They feel confident in social situations, like to speak for and lead a group, seek out other people and tend to be full of energy.'},
+        low:{cs:'Ve společnosti se cítí méně jistě, ve skupině se drží spíš v pozadí, raději tráví čas o samotě a působí klidněji.',
+             en:'They feel less sure of themselves socially, tend to stay in the background of a group, prefer time alone and come across as calmer.'},
+        facets:[
+          {name:'Sociální sebehodnocení', en:'Social Self-Esteem', items:'4 28R 52R'},
+          {name:'Sociální odvaha', en:'Social Boldness', items:'10R 34 58'},
+          {name:'Družnost', en:'Sociability', items:'16 40'},
+          {name:'Živost', en:'Liveliness', items:'22 46R'}
+        ]},
+      { id:'A', name:'Přívětivost', en:'Agreeableness',
+        high:{cs:'Snadno odpouštějí, druhé posuzují shovívavě, jsou ochotni ke kompromisu a dobře ovládají hněv.',
+              en:'They forgive easily, judge others leniently, are willing to compromise and keep their temper under control.'},
+        low:{cs:'Dlouho si pamatují křivdy, bývají kritičtí a tvrdohlaví a snadněji se rozzlobí.',
+             en:'They hold grudges, tend to be critical and stubborn, and get angry more easily.'},
+        facets:[
+          {name:'Odpouštění', en:'Forgiveness', items:'3 27'},
+          {name:'Mírnost', en:'Gentleness', items:'9R 33 51'},
+          {name:'Flexibilita', en:'Flexibility', items:'15R 39 57R'},
+          {name:'Trpělivost', en:'Patience', items:'21R 45'}
+        ]},
+      { id:'C', name:'Svědomitost', en:'Conscientiousness',
+        high:{cs:'Plánují a organizují si čas i věci kolem sebe, pracují vytrvale, dbají na přesnost a rozhodují se uváženě.',
+              en:'They plan and organize their time and surroundings, work persistently, care about accuracy and make decisions carefully.'},
+        low:{cs:'Méně plánují, náročným úkolům se spíš vyhýbají, nedbají tolik na detaily a jednají impulzivněji.',
+             en:'They plan less, tend to avoid demanding tasks, pay less attention to details and act more impulsively.'},
+        facets:[
+          {name:'Organizovanost', en:'Organization', items:'2 26R'},
+          {name:'Pracovitost', en:'Diligence', items:'8 32R'},
+          {name:'Perfekcionismus', en:'Perfectionism', items:'14R 38 50'},
+          {name:'Rozvážnost', en:'Prudence', items:'20R 44R 56R'}
+        ]},
+      { id:'O', name:'Otevřenost vůči zkušenosti', en:'Openness to Experience',
+        high:{cs:'Těší je umění a krása, zajímají se o nové poznatky, mají bohatou představivost a baví je neobvyklé myšlenky.',
+              en:'They enjoy art and beauty, are curious about new knowledge, have a vivid imagination and like unusual ideas.'},
+        low:{cs:'Umění je příliš neoslovuje, intelektuální zvídavost je u nich menší a nevšední názory je spíše nezajímají.',
+             en:'Art does not speak to them much, they are less intellectually curious, and unconventional views tend not to interest them.'},
+        facets:[
+          {name:'Estetické cítění', en:'Aesthetic Appreciation', items:'1R 25'},
+          {name:'Zvídavost', en:'Inquisitiveness', items:'7 31R'},
+          {name:'Tvořivost', en:'Creativity', items:'13 37 49R'},
+          {name:'Nekonvenčnost', en:'Unconventionality', items:'19R 43 55R'}
+        ]}
+    ]
+  },
+  ipipneo60: {
+    id: 'ipipneo60',
+    title: 'IPIP-NEO-60',
+    subtitle: {cs:'Pět velkých faktorů osobnosti (Big Five)', en:'The Big Five personality traits'},
+    about: {
+      cs:'Krátký dotazník z volně dostupné databáze IPIP, který měří model Velké pětky: neuroticismus, extraverzi, otevřenost, přívětivost a svědomitost, každou dimenzi v šesti facetách.',
+      en:'A short questionnaire from the public-domain IPIP item pool measuring the Big Five: neuroticism, extraversion, openness, agreeableness and conscientiousness, each with six facets.'
+    },
+    duration: {cs:'cca 8–10 minut', en:'about 8–10 minutes'},
+    credit: {
+      cs:'IPIP-NEO-60: Maples-Keller et al. (2019), Journal of Personality Assessment. Položky z International Personality Item Pool (ipip.ori.org) jsou volným dílem. Český překlad je pracovní, nevalidovaný.',
+      en:'IPIP-NEO-60: Maples-Keller et al. (2019), Journal of Personality Assessment. Items from the International Personality Item Pool (ipip.ori.org), public domain.'
+    },
+    scale: ACCURACY5,
+    instructions: {
+      cs:[
+        'Najdete zde 60 krátkých popisů chování. U každého zvolte, nakolik vás vystihuje.',
+        'Popište se takoví, jací obvykle jste teď – ne jací byste chtěli být. Srovnávejte se s lidmi podobného věku, které znáte.',
+        'Nejsou tu správné ani špatné odpovědi. Nepřemýšlejte nad jedním výrokem příliš dlouho.',
+        'Odpovězte prosím na všechny výroky, i když si u některých nejste úplně jistí.'
+      ],
+      en:[
+        'You will find 60 short descriptions of behaviour. For each one, choose how accurately it describes you.',
+        'Describe yourself as you generally are now, not as you wish to be. Compare yourself with people of roughly your age whom you know.',
+        'There are no right or wrong answers. Don’t think too long about any one statement.',
+        'Please respond to every statement, even if you are not completely sure.'
+      ]
+    },
+    items: {
+      cs: [
+        "Dělám si starosti.",
+        "Snadno se s lidmi spřátelím.",
+        "Mám živou představivost.",
+        "Důvěřuji druhým.",
+        "Úkoly zvládám hladce.",
+        "Snadno se rozzlobím.",
+        "Miluji velké večírky.",
+        "Věřím, že umění je důležité.",
+        "Podvádím, abych se dostal/a dopředu.",
+        "Mám rád/a pořádek.",
+        "Často se cítím smutný/á.",
+        "Ujímám se vedení.",
+        "Své emoce prožívám intenzivně.",
+        "Rád/a pomáhám druhým.",
+        "Říkám pravdu.",
+        "Je pro mě obtížné oslovit druhé lidi.",
+        "Pořád něco dělám.",
+        "Raději se držím toho, co znám.",
+        "Urážím lidi.",
+        "Tvrdě pracuji.",
+        "Málokdy si něčeho dopřeju přes míru.",
+        "Miluji vzrušení.",
+        "Vyhýbám se filozofickým diskuzím.",
+        "Myslím si, že jsem lepší než ostatní.",
+        "Plním, co si naplánuji.",
+        "Pod tlakem zůstávám klidný/á.",
+        "Hodně se bavím.",
+        "Ve volbách bych dal/a hlas spíše liberálním, progresivním kandidátům.",
+        "Soucítím s lidmi bez domova.",
+        "Dělám ukvapená rozhodnutí.",
+        "Snadno se dostanu do stresu.",
+        "Mezi lidmi se chovám uvolněně.",
+        "Rád/a sním s otevřenýma očima.",
+        "Věřím, že to ostatní myslí dobře.",
+        "Vím, jak věci zařídit.",
+        "Stává se mi, že vybuchnu vzteky.",
+        "Vyhýbám se davům.",
+        "Nemám rád/a umění.",
+        "Zneužívám druhé ve svůj prospěch.",
+        "Nechávám v pokoji nepořádek.",
+        "Nemám se rád/a.",
+        "Snažím se vést ostatní.",
+        "Mé emoce mě jen tak neovlivní.",
+        "Záleží mi na druhých.",
+        "Porušuji své sliby.",
+        "Snadno se nechám zastrašit.",
+        "Jsem neustále v pohybu.",
+        "Nelíbí se mi představa změny.",
+        "Oplácím druhým křivdy.",
+        "Kladu na sebe i na druhé vysoké nároky.",
+        "Dokážu ovládat své chutě.",
+        "Vyhledávám dobrodružství.",
+        "Nezajímají mě teoretické debaty.",
+        "Mám o sobě vysoké mínění.",
+        "Mám potíže pustit se do úkolů.",
+        "Jsem klidný/á i ve vypjatých situacích.",
+        "Miluji život.",
+        "Věřím v jediné pravé náboženství.",
+        "Soucítím s těmi, kterým se daří hůř než mně.",
+        "Jednám bez rozmyslu."
+      ],
+      en: [
+        "Worry about things.",
+        "Make friends easily.",
+        "Have a vivid imagination.",
+        "Trust others.",
+        "Handle tasks smoothly.",
+        "Get angry easily.",
+        "Love large parties.",
+        "Believe in the importance of art.",
+        "Cheat to get ahead.",
+        "Like order.",
+        "Often feel blue.",
+        "Take charge.",
+        "Experience my emotions intensely.",
+        "Love to help others.",
+        "Tell the truth.",
+        "Find it difficult to approach others.",
+        "Am always busy.",
+        "Prefer to stick with things that I know.",
+        "Insult people.",
+        "Work hard.",
+        "Rarely overindulge.",
+        "Love excitement.",
+        "Avoid philosophical discussions.",
+        "Believe that I am better than others.",
+        "Carry out my plans.",
+        "Remain calm under pressure.",
+        "Have a lot of fun.",
+        "Tend to vote for liberal political candidates.",
+        "Sympathize with the homeless.",
+        "Make rash decisions.",
+        "Get stressed out easily.",
+        "Act comfortably with others.",
+        "Love to daydream.",
+        "Believe that others have good intentions.",
+        "Know how to get things done.",
+        "Lose my temper.",
+        "Avoid crowds.",
+        "Do not like art.",
+        "Take advantage of others.",
+        "Leave a mess in my room.",
+        "Dislike myself.",
+        "Try to lead others.",
+        "Am not easily affected by my emotions.",
+        "Am concerned about others.",
+        "Break my promises.",
+        "Am easily intimidated.",
+        "Am always on the go.",
+        "Don't like the idea of change.",
+        "Get back at others.",
+        "Set high standards for myself and others.",
+        "Am able to control my cravings.",
+        "Seek adventure.",
+        "Am not interested in theoretical discussions.",
+        "Think highly of myself.",
+        "Have difficulty starting tasks.",
+        "Am calm even in tense situations.",
+        "Love life.",
+        "Believe in one true religion.",
+        "Feel sympathy for those who are worse off than myself.",
+        "Act without thinking."
+      ]
+    },
+    factors: [
+      { id:'N', name:"Neuroticismus", en:"Neuroticism",
+        high:{cs:"Častěji prožívají úzkost, podrážděnost nebo smutek, snadno je něco rozhodí a hůř zvládají tlak.",
+              en:"They more often feel anxious, irritable or down, are easily thrown off balance and find pressure harder to handle."},
+        low:{cs:"Bývají emočně vyrovnaní, zůstávají klidní i ve stresu a nepříjemné pocity je tolik nerozhodí.",
+             en:"They tend to be emotionally stable, stay calm even under stress and are less shaken by unpleasant feelings."},
+        facets:[
+          {name:"Úzkostnost", en:"Anxiety", items:'1 31'},
+          {name:"Hněvivost", en:"Anger", items:'6 36'},
+          {name:"Skleslost", en:"Depression", items:'11 41'},
+          {name:"Rozpačitost", en:"Self-Consciousness", items:'16 46'},
+          {name:"Nestřídmost", en:"Immoderation", items:'21R 51R'},
+          {name:"Zranitelnost", en:"Vulnerability", items:'26R 56R'}
+        ]},
+      { id:'E', name:"Extraverze", en:"Extraversion",
+        high:{cs:"Snadno navazují kontakty, mají rádi společnost a ruch, ujímají se vedení a bývají plní energie a dobré nálady.",
+              en:"They make friends easily, enjoy company and excitement, take charge and tend to be energetic and cheerful."},
+        low:{cs:"Jsou zdrženlivější, raději tráví čas v menší společnosti nebo o samotě, nevyhledávají ruch a nepotřebují být středem pozornosti.",
+             en:"They are more reserved, prefer small groups or time alone, avoid hustle and bustle and do not need to be the centre of attention."},
+        facets:[
+          {name:"Přátelskost", en:"Friendliness", items:'2 32'},
+          {name:"Družnost", en:"Gregariousness", items:'7 37R'},
+          {name:"Průbojnost", en:"Assertiveness", items:'12 42'},
+          {name:"Aktivita", en:"Activity Level", items:'17 47'},
+          {name:"Vyhledávání vzrušení", en:"Excitement-Seeking", items:'22 52'},
+          {name:"Veselost", en:"Cheerfulness", items:'27 57'}
+        ]},
+      { id:'O', name:"Otevřenost vůči zkušenosti", en:"Openness to Experience",
+        high:{cs:"Mají živou fantazii, zajímá je umění a abstraktní myšlenky, intenzivně prožívají emoce a vítají změnu a nové zkušenosti.",
+              en:"They have a vivid imagination, are interested in art and abstract ideas, experience emotions intensely and welcome change and new experiences."},
+        low:{cs:"Dávají přednost známému a praktickému, umění a teoretické debaty je tolik nelákají a ke změnám přistupují opatrně.",
+             en:"They prefer the familiar and practical, are less drawn to art and theoretical debates, and approach change with caution."},
+        facets:[
+          {name:"Představivost", en:"Imagination", items:'3 33'},
+          {name:"Umělecké zájmy", en:"Artistic Interests", items:'8 38R'},
+          {name:"Emoční prožívání", en:"Emotionality", items:'13 43R'},
+          {name:"Dobrodružnost", en:"Adventurousness", items:'18R 48R'},
+          {name:"Intelekt", en:"Intellect", items:'23R 53R'},
+          {name:"Liberálnost", en:"Liberalism", items:'28 58R'}
+        ]},
+      { id:'A', name:"Přívětivost", en:"Agreeableness",
+        high:{cs:"Důvěřují druhým, jednají poctivě, rádi pomáhají, vyhýbají se konfliktům a jsou skromní a soucitní.",
+              en:"They trust others, act honestly, like to help, avoid conflict, and are modest and compassionate."},
+        low:{cs:"Jsou vůči druhým spíš nedůvěřiví, soutěživí a přímí, nebojí se konfliktu a více hledí na vlastní zájmy.",
+             en:"They are more sceptical of others, competitive and blunt, do not shy away from conflict and look out more for their own interests."},
+        facets:[
+          {name:"Důvěra", en:"Trust", items:'4 34'},
+          {name:"Morálka", en:"Morality", items:'9R 39R'},
+          {name:"Altruismus", en:"Altruism", items:'14 44'},
+          {name:"Spolupráce", en:"Cooperation", items:'19R 49R'},
+          {name:"Skromnost", en:"Modesty", items:'24R 54R'},
+          {name:"Soucit", en:"Sympathy", items:'29 59'}
+        ]},
+      { id:'C', name:"Svědomitost", en:"Conscientiousness",
+        high:{cs:"Věří si při plnění úkolů, mají rádi pořádek, plní sliby, pracují cílevědomě a rozhodují se uváženě.",
+              en:"They feel capable of handling tasks, like order, keep their promises, work towards their goals and make careful decisions."},
+        low:{cs:"Jsou spontánnější a méně organizovaní, hůř se pouštějí do úkolů, plány často mění a jednají spíš impulzivně.",
+             en:"They are more spontaneous and less organized, find it harder to get started on tasks, often change plans and act more impulsively."},
+        facets:[
+          {name:"Kompetence", en:"Self-Efficacy", items:'5 35'},
+          {name:"Pořádkumilovnost", en:"Orderliness", items:'10 40R'},
+          {name:"Smysl pro povinnost", en:"Dutifulness", items:'15 45R'},
+          {name:"Cílevědomost", en:"Achievement-Striving", items:'20 50'},
+          {name:"Sebekázeň", en:"Self-Discipline", items:'25 55R'},
+          {name:"Rozvážnost", en:"Cautiousness", items:'30R 60R'}
+        ]}
+    ]
+  }
+};
+
+/* HEXACO-100: dimenze a facety převzaty z HEXACO-60, mění se jen položky.
+   Altruismus je „mezilehlá“ faceta – do skóre dimenzí se nezapočítává. */
+const HEXACO100_KEYS = [["6R 30 54R 78", "12R 36R 60 84R", "18 42R 66R 90R", "24 48 72R 96R"], ["5 29R 53 77R", "11 35R 59R 83", "17 41R 65 89R", "23 47 71 95R"], ["4 28 52R 76R", "10R 34 58 82R", "16R 40 64 88", "22 46 70R 94R"], ["3 27 51R 75R", "9R 33 57 81", "15R 39 63R 87R", "21R 45 69 93R"], ["2 26 50R 74R", "8 32 56R 80R", "14 38R 62 86", "20R 44R 68 92R"], ["1R 25R 49 73", "7 31 55R 79R", "13R 37 61 85R", "19R 43 67 91R"]];
+TESTS.hexaco100 = {
+  id: 'hexaco100',
+  title: 'HEXACO-100',
+  subtitle: {cs:'Šest dimenzí osobnosti – delší verze', en:'Six dimensions of personality – longer version'},
+  about: {
+    cs:'Delší verze inventáře HEXACO. Měří stejných šest dimenzí jako HEXACO-60, ale každou facetu čtyřmi výroky, takže je přesnější. Navíc zahrnuje facetu altruismus.',
+    en:'The longer version of the HEXACO inventory. It measures the same six dimensions as HEXACO-60, but with four statements per facet, so it is more precise. It also includes an Altruism facet.'
+  },
+  duration: {cs:'cca 15–20 minut', en:'about 15–20 minutes'},
+  credit: {
+    cs: TESTS.hexaco60.credit.cs.replace('HEXACO-60', 'HEXACO-100'),
+    en: TESTS.hexaco60.credit.en.replace('HEXACO-60', 'HEXACO-100')
+  },
+  scale: LIKERT5,
+  instructions: {
+    cs: TESTS.hexaco60.instructions.cs.map(s => s.replace('60 výroků', '100 výroků')),
+    en: TESTS.hexaco60.instructions.en.map(s => s.replace('60 statements', '100 statements'))
+  },
+  items: {
+    cs: [
+      "Návštěva umělecké galerie by mě zřejmě nudila.",
+      "Uklízím si v kanceláři nebo doma celkem často.",
+      "Jen vzácně chovám zášť vůči lidem, kteří mi hodně ukřivdili.",
+      "Celkově jsem se sebou přiměřeně spokojený/á.",
+      "Bál/a bych se, kdybych musel/a cestovat ve špatném počasí.",
+      "Chci-li něco od osoby, kterou nemám rád/a, budu se k ní chovat velmi pěkně, abych to dostal/a.",
+      "Zajímám se o poznávání historie a politiky ostatních zemí.",
+      "Když pracuji, stanovuji si často ambiciózní cíle.",
+      "Lidé mi občas říkají, že jsem k ostatním příliš kritický/á.",
+      "Zřídka vyjadřuji své názory na skupinových schůzkách.",
+      "Někdy se neubráním obavám z maličkostí.",
+      "Kdybych věděl/a, že mě nikdy nechytí, byl/a bych ochoten/a ukrást 10 milionů korun.",
+      "Chtěl/a bych práci, která vyžaduje spíše dodržování rutiny než tvořivost.",
+      "Často opakovaně kontroluji svou práci, abych našel/a případné chyby.",
+      "Lidé mi občas říkají, že jsem příliš tvrdohlavý/á.",
+      "Vyhýbám se nezávazné konverzaci s lidmi.",
+      "Když jsem prožil/a bolestný zážitek, potřebuji někoho, abych se cítil/a lépe.",
+      "Není pro mě obzvláště důležité mít hodně peněz.",
+      "Věnovat pozornost extrémním (radikálním) názorům je ztráta času.",
+      "Dělám rozhodnutí spíše na základě aktuálních pocitů než po pečlivé úvaze.",
+      "Lidé si o mně myslí, že mám prudkou povahu.",
+      "Jsem téměř stále plný/á energie.",
+      "Je mi do pláče, když vidím ostatní lidi plakat.",
+      "Jsem obyčejný člověk, který není lepší než ostatní.",
+      "Netrávil/a bych svůj čas čtením básnické sbírky.",
+      "Plánuji dopředu a organizuji věci, abych se vyhnul/a honičce na poslední chvíli.",
+      "Můj postoj k lidem, kteří se mnou špatně jednali, je „odpusť a zapomeň“.",
+      "Myslím, že většina lidí má ráda některé stránky mojí osobnosti.",
+      "Nevadí mi zaměstnání, které zahrnuje nebezpečnou práci.",
+      "Neužil/a bych lichocení k tomu, abych dosáhl/a zvýšení platu nebo povýšení v práci, i kdybych si myslel/a, že tím uspěji.",
+      "Rád/a se dívám na mapy různých míst.",
+      "Často vynakládám velké úsilí, když se snažím dosáhnout nějakého cíle.",
+      "Obecně akceptuji chyby lidí, aniž bych si na ně stěžoval/a.",
+      "Ve společenských situacích jsem obvykle tím, kdo dělá první krok.",
+      "Strachuji se mnohem méně než většina lidí.",
+      "Byl/a bych v pokušení koupit kradený majetek, kdybych byl/a ve finanční tísni.",
+      "Těšilo by mě vytváření uměleckého díla, jako například románu, písně nebo malby.",
+      "Když na něčem pracuji, nevěnuji moc pozornosti malým detailům.",
+      "Pokud se mnou lidé nesouhlasí, celkem pružně své názory měním.",
+      "Rád/a mám kolem sebe mnoho lidí, se kterými si mohu popovídat.",
+      "Dovedu zvládnout obtížné situace bez potřeby emoční podpory od někoho jiného.",
+      "Chtěl/a bych žít ve velmi drahém sousedství vyšší společnosti.",
+      "Mám rád/a lidi, kteří mají neobvyklé názory.",
+      "Dělám mnoho chyb, protože nepřemýšlím předtím, než jednám.",
+      "Málokdy mám vztek, ani když se mnou lidé zacházejí celkem špatně.",
+      "Po většinu dní se cítím veselý/á a optimistický/á.",
+      "Když je někdo, koho dobře znám, nešťastný, téměř cítím jeho bolest.",
+      "Nechtěl/a bych, aby se mnou lidé jednali tak, jako bych jim byl/a nadřazený/á.",
+      "Kdybych měl/a příležitost, rád/a bych navštívil/a koncert klasické hudby.",
+      "Lidé se mnou často vtipkují o nepořádku v mém pokoji nebo na stole.",
+      "Pokud mě někdo jednou podvede, budu vůči němu vždy podezřívavý/á.",
+      "Mám pocit, že jsem nepopulární člověk.",
+      "Když přijde na fyzické nebezpečí, jsem velmi vystrašený/á.",
+      "Pokud od někoho něco chci, budu se smát jeho nejhorším vtipům.",
+      "Kniha o historii vědy a techniky by mě velmi nudila.",
+      "Často, když si stanovím cíl, skončím, aniž bych ho dosáhl/a.",
+      "Při posuzování druhých lidí bývám velmi shovívavý/á.",
+      "Ve skupině lidí jsem často tím, kdo mluví za celou skupinu.",
+      "Jen zřídka mívám problémy se spaním kvůli stresu nebo úzkosti.",
+      "Nikdy bych nepřijal/a úplatek, ani kdyby byl velmi vysoký.",
+      "Lidé mi často říkají, že mám dobrou představivost.",
+      "Vždycky se snažím být při práci přesný/á, i na úkor času.",
+      "Když mi lidé říkají, že se mýlím, mou první reakcí je dohadovat se s nimi.",
+      "Raději pracuji s lidmi než o samotě.",
+      "Kdykoli mám o něco obavy, chci se o svoje starosti s někým podělit.",
+      "Chtěl/a bych, aby mě někdo viděl, jak řídím velmi drahé auto.",
+      "Považuji se za poněkud výstřední osobu.",
+      "Nedovolím, aby moje zbrklost (impulzivnost) ovládala mé chování.",
+      "Většina lidí má tendenci se rozčílit rychleji než já.",
+      "Lidé mi často říkají, že bych měl/a zkusit být veselejší.",
+      "Cítím silné emoce, když někdo mně blízký odjíždí na dlouhou dobu.",
+      "Myslím si, že mám nárok na víc respektu než průměrný člověk.",
+      "Někdy jen rád/a pozoruji stromy ve větru.",
+      "Když pracuji, mám někdy problémy kvůli svému neorganizovanému přístupu.",
+      "Přijde mi těžké zcela odpustit někomu, kdo mi provedl něco zlého.",
+      "Občas mám pocit, že jsem bezcenný člověk.",
+      "Nepropadal/a bych panice ani ve stavu nouze.",
+      "Nepředstíral/a bych, že mám někoho rád jen proto, aby mně dotyčný prokázal laskavost.",
+      "Nikdy mě opravdu nebavilo prohlížení encyklopedie.",
+      "Dělám pouze minimální množství potřebné práce, abych obstál/a.",
+      "I když lidé dělají hodně chyb, jen zřídka řeknu něco negativního.",
+      "Mám tendenci se cítit dost rozpačitě, když mluvím před skupinou lidí.",
+      "Jsem velmi nervózní, když čekám na výsledek důležitého rozhodnutí.",
+      "Byl/a bych v pokušení použít padělané peníze, kdybych si byl/a jistý/á, že mi to projde.",
+      "Nemyslím si o sobě, že jsem umělecký nebo tvůrčí typ.",
+      "Lidé mě často nazývají perfekcionistou.",
+      "Je pro mě těžké přistoupit na kompromis, pokud jsem skutečně přesvědčený/á, že mám pravdu.",
+      "První věc, kterou vždy dělám na novém místě, je nalezení nových přátel.",
+      "Zřídka probírám své problémy s jinými lidmi.",
+      "Velmi by mě těšilo vlastnit drahé, luxusní zboží.",
+      "Diskuze o filozofii pokládám za nudné.",
+      "Raději dělám cokoli, co mě právě napadne, než abych se držel/a plánu.",
+      "Přijde mi těžké ovládnout se, když mě lidé urážejí.",
+      "Většina lidí je pozitivnější a dynamičtější, než jsem obvykle já.",
+      "Zůstávám bez emocí i v situacích, ve kterých se většina lidí stává velmi sentimentálními.",
+      "Chci, aby lidé věděli, že jsem důležitá osoba s vysokým postavením.",
+      "Soucítím s lidmi, kteří mají méně štěstí než já.",
+      "Snažím se být štědrý/á k lidem v nouzi.",
+      "Nedělalo by mi potíže ublížit někomu, koho nemám rád/a.",
+      "Lidé mě pokládají za necitelného člověka."
+    ],
+    en: [
+      "I would be quite bored by a visit to an art gallery.",
+      "I clean my office or home quite frequently.",
+      "I rarely hold a grudge, even against people who have badly wronged me.",
+      "I feel reasonably satisfied with myself overall.",
+      "I would feel afraid if I had to travel in bad weather conditions.",
+      "If I want something from a person I dislike, I will act very nicely toward that person in order to get it.",
+      "I'm interested in learning about the history and politics of other countries.",
+      "When working, I often set ambitious goals for myself.",
+      "People sometimes tell me that I am too critical of others.",
+      "I rarely express my opinions in group meetings.",
+      "I sometimes can't help worrying about little things.",
+      "If I knew that I could never get caught, I would be willing to steal a million dollars.",
+      "I would like a job that requires following a routine rather than being creative.",
+      "I often check my work over repeatedly to find any mistakes.",
+      "People sometimes tell me that I'm too stubborn.",
+      "I avoid making \"small talk\" with people.",
+      "When I suffer from a painful experience, I need someone to make me feel comfortable.",
+      "Having a lot of money is not especially important to me.",
+      "I think that paying attention to radical ideas is a waste of time.",
+      "I make decisions based on the feeling of the moment rather than on careful thought.",
+      "People think of me as someone who has a quick temper.",
+      "I am energetic nearly all the time.",
+      "I feel like crying when I see other people crying.",
+      "I am an ordinary person who is no better than others.",
+      "I wouldn't spend my time reading a book of poetry.",
+      "I plan ahead and organize things, to avoid scrambling at the last minute.",
+      "My attitude toward people who have treated me badly is \"forgive and forget\".",
+      "I think that most people like some aspects of my personality.",
+      "I don't mind doing jobs that involve dangerous work.",
+      "I wouldn't use flattery to get a raise or promotion at work, even if I thought it would succeed.",
+      "I enjoy looking at maps of different places.",
+      "I often push myself very hard when trying to achieve a goal.",
+      "I generally accept people's faults without complaining about them.",
+      "In social situations, I'm usually the one who makes the first move.",
+      "I worry a lot less than most people do.",
+      "I would be tempted to buy stolen property if I were financially tight.",
+      "I would enjoy creating a work of art, such as a novel, a song, or a painting.",
+      "When working on something, I don't pay much attention to small details.",
+      "I am usually quite flexible in my opinions when people disagree with me.",
+      "I enjoy having lots of people around to talk with.",
+      "I can handle difficult situations without needing emotional support from anyone else.",
+      "I would like to live in a very expensive, high-class neighborhood.",
+      "I like people who have unconventional views.",
+      "I make a lot of mistakes because I don't think before I act.",
+      "I rarely feel anger, even when people treat me quite badly.",
+      "On most days, I feel cheerful and optimistic.",
+      "When someone I know well is unhappy, I can almost feel that person's pain myself.",
+      "I wouldn't want people to treat me as though I were superior to them.",
+      "If I had the opportunity, I would like to attend a classical music concert.",
+      "People often joke with me about the messiness of my room or desk.",
+      "If someone has cheated me once, I will always feel suspicious of that person.",
+      "I feel that I am an unpopular person.",
+      "When it comes to physical danger, I am very fearful.",
+      "If I want something from someone, I will laugh at that person's worst jokes.",
+      "I would be very bored by a book about the history of science and technology.",
+      "Often when I set a goal, I end up quitting without having reached it.",
+      "I tend to be lenient in judging other people.",
+      "When I'm in a group of people, I'm often the one who speaks on behalf of the group.",
+      "I rarely, if ever, have trouble sleeping due to stress or anxiety.",
+      "I would never accept a bribe, even if it were very large.",
+      "People have often told me that I have a good imagination.",
+      "I always try to be accurate in my work, even at the expense of time.",
+      "When people tell me that I'm wrong, my first reaction is to argue with them.",
+      "I prefer jobs that involve active social interaction to those that involve working alone.",
+      "Whenever I feel worried about something, I want to share my concern with another person.",
+      "I would like to be seen driving around in a very expensive car.",
+      "I think of myself as a somewhat eccentric person.",
+      "I don't allow my impulses to govern my behavior.",
+      "Most people tend to get angry more quickly than I do.",
+      "People often tell me that I should try to cheer up.",
+      "I feel strong emotions when someone close to me is going away for a long time.",
+      "I think that I am entitled to more respect than the average person is.",
+      "Sometimes I like to just watch the wind as it blows through the trees.",
+      "When working, I sometimes have difficulties due to being disorganized.",
+      "I find it hard to fully forgive someone who has done something mean to me.",
+      "I sometimes feel that I am a worthless person.",
+      "Even in an emergency I wouldn't feel like panicking.",
+      "I wouldn't pretend to like someone just to get that person to do favors for me.",
+      "I've never really enjoyed looking through an encyclopedia.",
+      "I do only the minimum amount of work needed to get by.",
+      "Even when people make a lot of mistakes, I rarely say anything negative.",
+      "I tend to feel quite self-conscious when speaking in front of a group of people.",
+      "I get very anxious when waiting to hear about an important decision.",
+      "I'd be tempted to use counterfeit money, if I were sure I could get away with it.",
+      "I don't think of myself as the artistic or creative type.",
+      "People often call me a perfectionist.",
+      "I find it hard to compromise with people when I really think I'm right.",
+      "The first thing that I always do in a new place is to make friends.",
+      "I rarely discuss my problems with other people.",
+      "I would get a lot of pleasure from owning expensive luxury goods.",
+      "I find it boring to discuss philosophy.",
+      "I prefer to do whatever comes to mind, rather than stick to a plan.",
+      "I find it hard to keep my temper when people insult me.",
+      "Most people are more upbeat and dynamic than I generally am.",
+      "I remain unemotional even in situations where most people get very sentimental.",
+      "I want people to know that I am an important person of high status.",
+      "I have sympathy for people who are less fortunate than I am.",
+      "I try to give generously to those in need.",
+      "It wouldn't bother me to harm someone I didn't like.",
+      "People see me as a hard-hearted person."
+    ]
+  },
+  factors: [
+    ...TESTS.hexaco60.factors.map((f, fi) => ({
+      ...f,
+      facets: f.facets.map((fc, ci) => ({ ...fc, items: HEXACO100_KEYS[fi][ci] }))
+    })),
+    { id:'Alt', name:'Altruismus', en:'Altruism', interstitial:true, items:'97 98 99R 100R',
+      high:{cs:'Soucítí s lidmi v nouzi, jsou k nim štědří a mají silnou zábranu někomu ublížit.',
+            en:'They feel for people in need, are generous towards them and are strongly reluctant to hurt anyone.'},
+      low:{cs:'Cizí neštěstí s nimi tolik nehne a zábrana ublížit druhým je u nich slabší.',
+           en:'Other people\'s misfortune moves them less, and they are less reluctant to hurt others.'},
+      facets:[] }
+  ]
+};
+
+/* Pořadí dotazníků na úvodní stránce */
+const TEST_ORDER = ['hexaco60', 'hexaco100', 'ipipneo60'];
+
+/* =====================================================================
+   TEXTY ROZHRANÍ / UI STRINGS
+   ===================================================================== */
+const UI = {
+  cs: {
+    appTitle:'Osobnostní dotazníky',
+    homeLead:'Vyberte dotazník. Odpovědi se nikam neodesílají – zůstávají jen ve vašem prohlížeči.',
+    homeFooter:'Výsledky slouží k sebepoznání a výuce, nejde o psychologickou diagnostiku.',
+    start:'Začít', showMine:'Zobrazit moje výsledky', retake:'Vyplnit znovu',
+    resume:(d,n)=>`Pokračovat (${d}/${n})`, startOver:'Začít znovu',
+    meta:(n,d)=>`${n} výroků · ${d}`,
+    back:'← Zpět', instructions:'Pokyny',
+    nameLabel:'Jméno nebo přezdívka', optional:'(nepovinné)', namePh:'Zobrazí se jen ve vašich výsledcích',
+    saveNote:'Odpovědi se ukládají pouze v tomto prohlížeči, takže můžete dotazník přerušit a později pokračovat.',
+    begin:'Začít dotazník',
+    pause:'✕ Přerušit', counter:(i,n)=>`Výrok ${i} z ${n}`, agreement:'Míra souhlasu',
+    prev:'← Předchozí', next:'Další →', finish:'Zobrazit výsledky', missing:n=>`Chybí odpovědi (${n}) →`,
+    kbd:'Můžete odpovídat i klávesami 1–5 a pohybovat se šipkami.',
+    home:'← Na úvod', resultsTitle:t=>`Výsledky: ${t}`, shared:'Sdílené výsledky',
+    resultsNote:'Skóre je průměr vašich odpovědí na škále 1–5 (u obráceně formulovaných výroků se odpověď přepočítá). Svislá čárka označuje střed škály (3) – <b>není to průměr populace</b>. Krátký dotazník měří jen přibližně a každá faceta stojí jen na několika výrocích, takže je berte s rezervou. Výsledek je podnět k zamyšlení, ne hodnocení vaší osobnosti.',
+    levels:{low:'spíše nízká', mid:'střední', high:'spíše vysoká'},
+    higher:'Vyšší skór:', lower:'Nižší skór:', facets:'Dílčí rysy (facety)',
+    print:'Vytisknout / uložit PDF', copyLink:'Zkopírovat odkaz', copied:'Odkaz na výsledky zkopírován', copyPrompt:'Zkopírujte odkaz:',
+    csv:'Stáhnout CSV', takeIt:'Vyplnit dotazník',
+    confirmRestart:'Opravdu začít znovu? Dosavadní odpovědi se smažou.',
+    notSent:'Výsledky se nikam neodesílají.',
+    locale:'cs-CZ', csvSep:';', decimalComma:true,
+    csvHead:['jmeno','datum','dotaznik','jazyk'], itemPrefix:'v',
+    onlyCs:'Výroky jsou zatím k dispozici jen česky.',
+    interstitial:'mezilehlá faceta, nezapočítává se do dimenzí'
+  },
+  en: {
+    appTitle:'Personality Questionnaires',
+    homeLead:'Choose a questionnaire. Your answers are never sent anywhere – they stay in your browser only.',
+    homeFooter:'The results are for self-reflection and learning, not psychological diagnosis.',
+    start:'Start', showMine:'Show my results', retake:'Take it again',
+    resume:(d,n)=>`Continue (${d}/${n})`, startOver:'Start over',
+    meta:(n,d)=>`${n} statements · ${d}`,
+    back:'← Back', instructions:'Instructions',
+    nameLabel:'Name or nickname', optional:'(optional)', namePh:'Shown only in your results',
+    saveNote:'Your answers are saved only in this browser, so you can stop and continue later.',
+    begin:'Start the questionnaire',
+    pause:'✕ Pause', counter:(i,n)=>`Statement ${i} of ${n}`, agreement:'Level of agreement',
+    prev:'← Previous', next:'Next →', finish:'Show results', missing:n=>`Missing answers (${n}) →`,
+    kbd:'You can also answer with keys 1–5 and move with the arrow keys.',
+    home:'← Home', resultsTitle:t=>`Results: ${t}`, shared:'Shared results',
+    resultsNote:'Each score is the average of your answers on a 1–5 scale (answers to reverse-worded statements are recoded). The vertical tick marks the middle of the scale (3) – <b>it is not the population average</b>. A short questionnaire is only approximate and each facet rests on just a few statements, so take them with a grain of salt. Treat the result as a prompt for reflection, not a verdict on your personality.',
+    levels:{low:'rather low', mid:'medium', high:'rather high'},
+    higher:'Higher score:', lower:'Lower score:', facets:'Facets',
+    print:'Print / save as PDF', copyLink:'Copy link', copied:'Link to results copied', copyPrompt:'Copy the link:',
+    csv:'Download CSV', takeIt:'Take the questionnaire',
+    confirmRestart:'Start over? Your current answers will be deleted.',
+    notSent:'Results are never sent anywhere.',
+    locale:'en-GB', csvSep:',', decimalComma:false,
+    csvHead:['name','date','questionnaire','language'], itemPrefix:'q',
+    onlyCs:'The statements are currently available in Czech only.',
+    interstitial:'interstitial facet, not included in the dimension scores'
+  }
+};
+
+/* =====================================================================
+   JAZYK / LANGUAGE   (?lang=en v adrese > uložená volba > čeština)
+   ===================================================================== */
+const LANGS = ['cs', 'en'];
+let lang = (() => {
+  const p = new URLSearchParams(location.search).get('lang');
+  if (LANGS.includes(p)) return p;
+  try { const s = localStorage.getItem('dotaznik:lang'); if (LANGS.includes(s)) return s; } catch(e){}
+  return 'cs';
+})();
+const T = () => UI[lang];
+const L = v => (v && typeof v === 'object' && !Array.isArray(v) && ('cs' in v || 'en' in v)) ? (v[lang] ?? v.cs) : v;
+const nm = o => lang === 'en' ? o.en : o.name;      // název dimenze / facety
+const sub = o => lang === 'cs' ? o.en : '';           // anglický podtitul v české verzi
+const itemCount = t => t.items.cs.length;
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.title = T().appTitle;
+  document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+}
+function setLang(l){
+  if (!LANGS.includes(l) || l === lang) return;
+  const nameInput = document.getElementById('name');
+  if (nameInput) draftName = nameInput.value;
+  lang = l;
+  try { localStorage.setItem('dotaznik:lang', l); } catch(e){}
+  const params = new URLSearchParams(location.search);
+  params.set('lang', l);
+  history.replaceState(null, '', location.pathname + '?' + params.toString() + location.hash);
+  applyLang();
+  rerender();
+}
+document.querySelector('.lang').addEventListener('click', e => {
+  const b = e.target.closest('[data-lang]'); if (b) setLang(b.dataset.lang);
+});
+
+/* =====================================================================
+   SKÓROVÁNÍ / SCORING
+   ===================================================================== */
+function parseKey(s){
+  return s.trim().split(/\s+/).map(t => ({ n: parseInt(t, 10), r: /R$/i.test(t) }));
+}
+function itemScore(test, key, answers){
+  const a = answers[key.n - 1];
+  if (a == null) return null;
+  return key.r ? (test.scale.length + 1 - a) : a;
+}
+function mean(xs){
+  const v = xs.filter(x => x != null);
+  return v.length ? v.reduce((a,b) => a + b, 0) / v.length : null;
+}
+function computeScores(test, answers){
+  return test.factors.map(f => {
+    const facets = f.facets.map(fc => {
+      const keys = parseKey(fc.items);
+      return { ...fc, keys, score: mean(keys.map(k => itemScore(test, k, answers))) };
+    });
+    // skóre dimenze = průměr přes všechny její položky (dle manuálu)
+    const all = f.items ? parseKey(f.items) : facets.flatMap(fc => fc.keys);
+    return { ...f, facets, score: mean(all.map(k => itemScore(test, k, answers))) };
+  });
+}
+function levelOf(score){
+  if (score < 2.5) return 'low';
+  if (score > 3.5) return 'high';
+  return 'mid';
+}
+
+/* =====================================================================
+   POMOCNÉ FUNKCE / HELPERS
+   ===================================================================== */
+const app = document.getElementById('app');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = x => x == null ? '' : (T().decimalComma ? x.toFixed(2).replace('.', ',') : x.toFixed(2));
+const pct = (score, k) => ((score - 1) / (k - 1)) * 100;
+
+const store = {
+  get(k){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return null; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} }
+};
+const storeKey = id => 'dotaznik:' + id;
+
+function render(html, keepScroll){ app.innerHTML = html; if (!keepScroll) window.scrollTo(0, 0); }
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2200);
+}
+function clearHash(){ history.replaceState(null, '', location.pathname + location.search); }
+function resultsUrl(test, answers){
+  return location.origin + location.pathname + location.search + '#v=' + test.id + '-' + answers.join('');
+}
+
+let state = null;      // { testId, answers, index, name }
+let view = 'home';
+let advanceTimer = null;
+let draftName = '';
+let rerender = () => renderHome();
+
+function save(){ if (state) store.set(storeKey(state.testId), state); }
+
+/* =====================================================================
+   OBRAZOVKY / SCREENS
+   ===================================================================== */
+function renderHome(){
+  view = 'home'; state = null; clearHash();
+  rerender = () => renderHome();
+  const u = T();
+  const cards = TEST_ORDER.map(id => TESTS[id]).map(t => {
+    const n = itemCount(t);
+    const saved = store.get(storeKey(t.id));
+    const done = saved ? saved.answers.filter(a => a != null).length : 0;
+    let actions = `<button class="btn primary" data-start="${t.id}">${u.start}</button>`;
+    if (saved && done === n) {
+      actions = `<button class="btn primary" data-results="${t.id}">${u.showMine}</button>
+                 <button class="btn" data-restart="${t.id}">${u.retake}</button>`;
+    } else if (done > 0) {
+      actions = `<button class="btn primary" data-resume="${t.id}">${u.resume(done, n)}</button>
+                 <button class="btn" data-restart="${t.id}">${u.startOver}</button>`;
+    }
+    return `<div class="card">
+      <h2>${esc(t.title)}</h2>
+      <p class="muted">${esc(L(t.subtitle))}</p>
+      <p>${esc(L(t.about))}</p>
+      <p class="small muted">${u.meta(n, esc(L(t.duration)))}</p>
+      ${t.items[lang] ? '' : `<p class="note small">${u.onlyCs}</p>`}
+      <div class="row" style="margin-top:14px">${actions}</div>
+    </div>`;
+  }).join('');
+  render(`
+    <h1>${u.appTitle}</h1>
+    <p class="muted">${u.homeLead}</p>
+    ${cards}
+    <footer>${u.homeFooter}</footer>
+  `);
+}
+
+function renderIntro(testId){
+  view = 'intro';
+  rerender = () => renderIntro(testId);
+  const t = TESTS[testId], u = T();
+  render(`
+    <button class="btn link" data-home>${u.back}</button>
+    <h1>${esc(t.title)}</h1>
+    <div class="card">
+      <h2>${u.instructions}</h2>
+      ${t.items[lang] ? '' : `<p class="note">${u.onlyCs}</p>`}
+      <ul class="clean">${L(t.instructions).map(i => `<li>${esc(i)}</li>`).join('')}</ul>
+      <label class="field">
+        <span>${u.nameLabel} <span class="muted small">${u.optional}</span></span>
+        <input type="text" id="name" maxlength="60" autocomplete="off" placeholder="${esc(u.namePh)}" value="${esc(draftName)}">
+      </label>
+      <p class="note">${u.saveNote}</p>
+      <div class="row" style="margin-top:16px">
+        <button class="btn primary" data-begin="${t.id}">${u.begin}</button>
+      </div>
+    </div>
+  `);
+  document.getElementById('name').focus();
+}
+
+function renderQuestion(){
+  view = 'question';
+  rerender = () => renderQuestion();
+  const t = TESTS[state.testId], u = T();
+  const items = L(t.items);
+  const i = state.index, n = items.length;
+  const answered = state.answers.filter(a => a != null).length;
+  const cur = state.answers[i];
+  const isLast = i === n - 1;
+  const firstMissing = state.answers.findIndex(a => a == null);
+
+  let nextBtn;
+  if (!isLast) {
+    nextBtn = `<button class="btn" data-next ${cur == null ? 'disabled' : ''}>${u.next}</button>`;
+  } else if (firstMissing === -1) {
+    nextBtn = `<button class="btn primary" data-finish>${u.finish}</button>`;
+  } else {
+    nextBtn = `<button class="btn" data-goto="${firstMissing}">${u.missing(n - answered)}</button>`;
+  }
+
+  render(`
+    <div class="qtop">
+      <button class="btn link" data-home>${u.pause}</button>
+      <span>${u.counter(i + 1, n)}</span>
+    </div>
+    <div class="progress" aria-hidden="true"><div style="width:${(answered / n) * 100}%"></div></div>
+    <p class="qtext">${esc(items[i])}</p>
+    <div class="options" role="group" aria-label="${u.agreement}">
+      ${t.scale.map(o => `<button class="opt" data-answer="${o.v}" aria-pressed="${cur === o.v}">
+          <span class="num">${o.v}</span><span>${esc(L(o.label))}</span></button>`).join('')}
+    </div>
+    <div class="qnav">
+      <button class="btn" data-prev ${i === 0 ? 'disabled' : ''}>${u.prev}</button>
+      ${nextBtn}
+    </div>
+    <p class="kbd-hint small muted">${u.kbd}</p>
+  `);
+}
+
+function answer(v){
+  const n = itemCount(TESTS[state.testId]);
+  state.answers[state.index] = v;
+  save();
+  clearTimeout(advanceTimer);
+  const atIndex = state.index;
+  renderQuestion();
+  if (atIndex < n - 1) {
+    advanceTimer = setTimeout(() => {
+      if (view === 'question' && state && state.index === atIndex) { state.index++; save(); renderQuestion(); }
+    }, 220);
+  }
+}
+
+function renderResults(testId, answers, opts = {}, keepScroll){
+  view = 'results';
+  rerender = () => renderResults(testId, answers, opts, true);
+  const t = TESTS[testId], u = T();
+  const k = t.scale.length;
+  const scores = computeScores(t, answers);
+  const name = opts.name || '';
+  history.replaceState(null, '', location.pathname + location.search + '#v=' + t.id + '-' + answers.join(''));
+
+  const factorCards = scores.map(f => {
+    const lv = levelOf(f.score);
+    const facets = f.facets.map(fc => `
+      <div class="facet">
+        <div>${esc(nm(fc))}${sub(fc) ? `<span class="sub">${esc(sub(fc))}</span>` : ''}</div>
+        <div class="bar"><div class="fill" style="width:${pct(fc.score, k)}%"></div><div class="mid"></div></div>
+        <div class="val">${fmt(fc.score)}</div>
+      </div>`).join('');
+    return `<div class="card">
+      <div class="factor-head">
+        <div><h2>${esc(nm(f))}</h2><div class="level">${sub(f) ? esc(sub(f)) + ' · ' : ''}${u.levels[lv]}${f.interstitial ? ' · ' + u.interstitial : ''}</div></div>
+        <div class="score">${fmt(f.score)}</div>
+      </div>
+      <div class="bar"><div class="fill" style="width:${pct(f.score, k)}%"></div><div class="mid"></div></div>
+      <div class="ticks"><span>1</span><span>3</span><span>5</span></div>
+      <div class="poles">
+        <div class="pole ${lv === 'high' ? 'on' : ''}"><b>${u.higher}</b> ${esc(L(f.high))}</div>
+        <div class="pole ${lv === 'low' ? 'on' : ''}"><b>${u.lower}</b> ${esc(L(f.low))}</div>
+      </div>
+      ${f.facets.length ? `<details>
+        <summary>${u.facets}</summary>
+        ${facets}
+      </details>` : ''}
+    </div>`;
+  }).join('');
+
+  const header = opts.shared
+    ? `<p class="muted">${u.shared}</p>`
+    : `<p class="muted">${name ? esc(name) + ' · ' : ''}${new Date().toLocaleDateString(u.locale)}</p>`;
+
+  render(`
+    <button class="btn link no-print" data-home>${u.home}</button>
+    <h1>${u.resultsTitle(esc(t.title))}</h1>
+    ${header}
+    <div class="card note" style="box-shadow:none">${u.resultsNote}</div>
+    ${factorCards}
+    <div class="results-actions no-print">
+      <div class="row">
+        <button class="btn primary" data-print>${u.print}</button>
+        <button class="btn" data-copylink>${u.copyLink}</button>
+        <button class="btn" data-csv>${u.csv}</button>
+        ${opts.shared ? `<button class="btn" data-home>${u.takeIt}</button>` : `<button class="btn" data-restart="${t.id}">${u.retake}</button>`}
+      </div>
+    </div>
+    <footer>${esc(L(t.credit))}<br>${u.notSent}</footer>
+  `, keepScroll);
+
+  app.querySelector('[data-print]').onclick = () => window.print();
+  app.querySelector('[data-copylink]').onclick = () => copyText(resultsUrl(t, answers));
+  app.querySelector('[data-csv]').onclick = () => downloadCSV(t, answers, scores, name);
+}
+
+/* =====================================================================
+   EXPORT
+   ===================================================================== */
+function copyText(text){
+  const u = T();
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => toast(u.copied), () => window.prompt(u.copyPrompt, text));
+  } else {
+    window.prompt(u.copyPrompt, text);
+  }
+}
+function downloadCSV(t, answers, scores, name){
+  const u = T();
+  const head = [...u.csvHead];
+  const row = [name, new Date().toISOString().slice(0, 10), t.id, lang];
+  scores.forEach(f => {
+    head.push(f.id + ' ' + nm(f)); row.push(fmt(f.score));
+    f.facets.forEach(fc => { head.push(f.id + ': ' + nm(fc)); row.push(fmt(fc.score)); });
+  });
+  answers.forEach((a, i) => { head.push(u.itemPrefix + (i + 1)); row.push(a); });
+  const q = v => '"' + String(v).replace(/"/g, '""') + '"';
+  const csv = '﻿' + head.map(q).join(u.csvSep) + '\r\n' + row.map(q).join(u.csvSep) + '\r\n';
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  const safe = (name || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${t.id}-${safe || (lang === 'en' ? 'results' : 'vysledky')}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* =====================================================================
+   OVLÁDÁNÍ / CONTROLS
+   ===================================================================== */
+function startFresh(testId, name){
+  state = { testId, answers: Array(itemCount(TESTS[testId])).fill(null), index: 0, name: name || '' };
+  draftName = '';
+  save();
+  renderQuestion();
+}
+
+app.addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (!b || b.disabled) return;
+  const d = b.dataset;
+  if ('home' in d) { draftName = ''; return renderHome(); }
+  if (d.start) return renderIntro(d.start);
+  if (d.begin) return startFresh(d.begin, (document.getElementById('name') || {}).value || '');
+  if (d.resume) {
+    state = store.get(storeKey(d.resume));
+    const miss = state.answers.findIndex(a => a == null);
+    state.index = miss === -1 ? state.answers.length - 1 : miss;
+    return renderQuestion();
+  }
+  if (d.restart) {
+    if (!confirm(T().confirmRestart)) return;
+    store.del(storeKey(d.restart));
+    return renderIntro(d.restart);
+  }
+  if (d.results) {
+    const s = store.get(storeKey(d.results));
+    return renderResults(d.results, s.answers, { name: s.name });
+  }
+  if (d.answer) return answer(Number(d.answer));
+  if ('prev' in d) { clearTimeout(advanceTimer); state.index = Math.max(0, state.index - 1); save(); return renderQuestion(); }
+  if ('next' in d) { clearTimeout(advanceTimer); state.index++; save(); return renderQuestion(); }
+  if (d.goto != null) { state.index = Number(d.goto); save(); return renderQuestion(); }
+  if ('finish' in d) return renderResults(state.testId, state.answers, { name: state.name });
+});
+
+document.addEventListener('keydown', e => {
+  if (view !== 'question' || e.altKey || e.ctrlKey || e.metaKey) return;
+  const t = TESTS[state.testId];
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= t.scale.length) { e.preventDefault(); return answer(n); }
+  if (e.key === 'ArrowLeft' && state.index > 0) { clearTimeout(advanceTimer); state.index--; save(); renderQuestion(); }
+  if (e.key === 'ArrowRight' && state.index < itemCount(t) - 1 && state.answers[state.index] != null) {
+    clearTimeout(advanceTimer); state.index++; save(); renderQuestion();
+  }
+});
+
+window.addEventListener('beforeprint', () => document.querySelectorAll('details').forEach(d => d.open = true));
+
+/* Načtení: odkaz s výsledky (#v=hexaco60-1234...) nebo úvodní stránka */
+function route(){
+  const m = location.hash.match(/^#v=([a-z0-9]+)-(\d+)$/i);
+  if (m && TESTS[m[1]]) {
+    const t = TESTS[m[1]];
+    const answers = m[2].split('').map(Number);
+    if (answers.length === itemCount(t) && answers.every(a => a >= 1 && a <= t.scale.length)) {
+      const own = store.get(storeKey(t.id));
+      const isOwn = own && own.answers.join('') === m[2];
+      return renderResults(t.id, answers, { shared: !isOwn, name: isOwn ? own.name : '' });
+    }
+  }
+  renderHome();
+}
+window.addEventListener('hashchange', route);
+applyLang();
+route();
+</script>
+</body>
+</html>
