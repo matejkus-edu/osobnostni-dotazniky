@@ -5,7 +5,9 @@ Jednoduchá statická webová aplikace pro vyplňování osobnostních dotazník
 Aktuálně obsahuje (česky i anglicky):
 
 - **HEXACO-60** – 60 výroků, 6 dimenzí, 24 facet (Lee & Ashton)
-- **HEXACO-100** – 100 výroků, 6 dimenzí, 24 facet + mezilehlá faceta Altruismus (do skóre dimenzí se nezapočítává).- **IPIP-NEO-60** – 60 výroků, Velká pětka, 30 facet (Maples-Keller et al., 2019; položky IPIP jsou volné dílo). Český překlad je pracovní a nevalidovaný. Pořadí výroků je střídané: nejdřív první výrok každé facety napříč dimenzemi, pak druhé.
+- **HEXACO-100** – 100 výroků, 6 dimenzí, 24 facet + mezilehlá faceta Altruismus (do skóre dimenzí se nezapočítává).
+- **IPIP-NEO-60** – 60 výroků, Velká pětka, 30 facet (Maples-Keller et al., 2019; položky IPIP jsou volné dílo). Český překlad je pracovní a nevalidovaný. Pořadí výroků je střídané: nejdřív první výrok každé facety napříč dimenzemi, pak druhé.
+- **IPIP-NEO-120** – 120 výroků, Velká pětka, 30 facet po 4 výrocích (Johnson, 2014; položky IPIP jsou volné dílo). Český překlad je pracovní a nevalidovaný, výroky společné s IPIP-NEO-60 mají stejné znění. Pořadí výroků je střídané stejně jako u verze 60.
 
 ## Jazyky
 
