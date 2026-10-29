@@ -9,6 +9,7 @@ Aktuálně obsahuje (česky i anglicky):
 - **IPIP-NEO-60** – 60 výroků, Velká pětka, 30 facet (Maples-Keller et al., 2019; položky IPIP jsou volné dílo). Český překlad je pracovní a nevalidovaný. Pořadí výroků je střídané: nejdřív první výrok každé facety napříč dimenzemi, pak druhé.
 - **IPIP-NEO-120** – 120 výroků, Velká pětka, 30 facet po 4 výrocích (Johnson, 2014; položky IPIP jsou volné dílo). Český překlad je pracovní a nevalidovaný, výroky společné s IPIP-NEO-60 mají stejné znění. Pořadí výroků je střídané stejně jako u verze 60.
 - **Asertivita (SRAS)** – 30 výroků, jedno celkové skóre na škále 1–6 (Simple Rathus Assertiveness Schedule, McCormick 1985, podle Rathus 1973). Upraveno pro dospívající: výroky 2, 11, 12, 13 a 19 jsou přeformulované, v 27 je kino místo divadla. Český překlad je pracovní a nevalidovaný. Výsledky upozorňují, že výroky 7 a 28 měří spíš bojovnost než asertivitu.
+- **Mezilidské dovednosti (ICQ)** – 40 situací, 5 oblastí po 8 položkách: navazování vztahů, svěřování se, ohrazení se, podpora druhých, zvládání konfliktů; škála 1–5 („jak dobře to zvládám“), bez obrácených položek (Interpersonal Competence Questionnaire, Buhrmester, Furman, Wittenberg & Reis, 1988). Upraveno pro dospívající: „companion“ → kamarád/ka, místo telefonování i psaní zpráv, spolubydlící → spolužáci, volba povolání → volba školy či oboru. Český překlad je pracovní a nevalidovaný.
 
 ## Odkazy na jednotlivé dotazníky
 
@@ -21,6 +22,7 @@ Každý dotazník má vlastní odkaz, který otevře rovnou jeho pokyny:
 | IPIP-NEO-60 | `…/osobnostni-dotazniky/#ipip-neo-60` |
 | IPIP-NEO-120 | `…/osobnostni-dotazniky/#ipip-neo-120` |
 | Asertivita (SRAS) | `…/osobnostni-dotazniky/#asertivita` |
+| Mezilidské dovednosti (ICQ) | `…/osobnostni-dotazniky/#icq` |
 
 Anglickou verzi otevře `?lang=en` před `#`, např. `…/osobnostni-dotazniky/?lang=en#asertivita`. Odkaz se dá zkopírovat i tlačítkem „🔗 Odkaz na dotazník“ na úvodní stránce (zkopíruje ho v právě zvoleném jazyce).
 

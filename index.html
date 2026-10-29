@@ -1106,7 +1106,7 @@ const LIKE6 = [
 ];
 TESTS.sras = {
   id: 'sras',
-  title: 'Asertivita (SRAS)',
+  title: {cs:'Asertivita (SRAS)', en:'Assertiveness (SRAS)'},
   subtitle: {cs:'Jak snadno se za sebe postavíte', en:'How easily you stand up for yourself'},
   about: {
     cs:'Upravená verze Rathusova dotazníku asertivity (Simple Rathus Assertiveness Schedule). Měří, jak snadno řeknete svůj názor, odmítnete, ozvete se nebo oslovíte druhé.',
@@ -1213,8 +1213,169 @@ TESTS.sras = {
   ]
 };
 
+/* Interpersonal Competence Questionnaire (Buhrmester, Furman, Wittenberg & Reis, 1988).
+   40 situací, 5 oblastí po 8 položkách (střídají se v pořadí 1–5), žádné obrácené položky.
+   Upraveno pro dospívající: „companion“ → kamarád/ka, randění, telefonování, spolubydlící, volba povolání. */
+TESTS.icq = {
+  id: 'icq',
+  title: {cs:'Mezilidské dovednosti (ICQ)', en:'Interpersonal Skills (ICQ)'},
+  subtitle: {cs:'Jak zvládáte situace v kamarádských vztazích', en:'How you handle situations in close relationships'},
+  about: {
+    cs:'Dotazník Interpersonal Competence Questionnaire. U 40 běžných situací z kamarádských a partnerských vztahů odhadnete, jak dobře je zvládáte. Výsledkem je profil pěti oblastí: navazování vztahů, svěřování se, ohrazení se, podpora druhých a zvládání konfliktů.',
+    en:'The Interpersonal Competence Questionnaire. For 40 everyday situations in friendships and dating you rate how well you handle them. The result is a profile of five areas: starting relationships, opening up, standing up for yourself, supporting others and handling conflict.'
+  },
+  duration: {cs:'cca 10 minut', en:'about 10 minutes'},
+  credit: {
+    cs:'Interpersonal Competence Questionnaire: Buhrmester, Furman, Wittenberg & Reis (1988), Journal of Personality and Social Psychology 55, 991–1008. Některé situace (randění, telefonování, spolubydlící, volba povolání) jsou upraveny pro dospívající. Český překlad je pracovní, nevalidovaný.',
+    en:'Interpersonal Competence Questionnaire: Buhrmester, Furman, Wittenberg & Reis (1988), Journal of Personality and Social Psychology 55, 991–1008. Some situations (dating, phone calls, roommates, career choice) are adapted for teenagers, and “companion” is worded as “friend”.'
+  },
+  scale: [
+    {v:1, label:{cs:'Jde mi to špatně – raději bych se tomu vyhnul/a', en:'I’m poor at this – I’d avoid it if I could'}},
+    {v:2, label:{cs:'Jde mi to jen tak tak – dělá mi to dost potíží', en:'I’m only fair at this – I’d find it quite hard'}},
+    {v:3, label:{cs:'Zvládám to – ale je mi to trochu nepříjemné', en:'I’m OK at this – but it feels a bit uncomfortable'}},
+    {v:4, label:{cs:'Jde mi to dobře – cítím se v tom jistě', en:'I’m good at this – I feel quite comfortable'}},
+    {v:5, label:{cs:'Jde mi to výborně – zvládnu to s lehkostí', en:'I’m extremely good at this – I handle it with ease'}}
+  ],
+  resultsExtra: {
+    cs:'Dotazník měří, jak své dovednosti vnímáte vy sami, ne jak je vidí druzí. Nejzajímavější bývá porovnat oblasti mezi sebou – málokdo je silný ve všech pěti. Zkuste se také zeptat kamaráda nebo kamarádky, jak by vás ohodnotili oni.',
+    en:'The questionnaire measures how you see your own skills, not how others see them. The most interesting part is comparing the five areas – few people are strong in all of them. You could also ask a friend how they would rate you.'
+  },
+  instructions: {
+    cs:[
+      'Najdete zde 40 situací, které se v kamarádských a partnerských vztazích běžně stávají.',
+      'U každé si představte, že se v ní ocitnete, a zvolte, jak dobře byste ji zvládli a jak jistě byste se v ní cítili.',
+      'Pokud jste podobnou situaci ještě nezažili, odpovězte podle toho, jak byste se nejspíš zachovali.',
+      'Nejsou tu správné ani špatné odpovědi. Odpovězte prosím na všechny situace.'
+    ],
+    en:[
+      'You will find 40 situations that commonly happen in friendships and dating.',
+      'For each one, imagine you are in it and choose how well you would handle it and how comfortable you would feel.',
+      'If you have not experienced a similar situation yet, answer how you would most likely behave.',
+      'There are no right or wrong answers. Please respond to every situation.'
+    ]
+  },
+  items: {
+    cs: [
+      "Navrhnout někomu, koho teprve poznáváte, abyste spolu něco podnikli – třeba někam vyrazili.",
+      "Říct kamarádovi nebo kamarádce, že se vám nelíbí, jak se k vám chová.",
+      "Svěřit se s něčím osobním někomu, koho teprve poznáváte.",
+      "Pomoci blízkému kamarádovi nebo kamarádce promyslet si myšlenky a pocity kolem velkého rozhodnutí, třeba výběru školy nebo oboru.",
+      "Dokázat připustit, že se možná mýlíte, když se neshoda s blízkým kamarádem nebo kamarádkou začíná měnit ve vážnou hádku.",
+      "Vymýšlet a navrhovat, co podniknout s novými lidmi, kteří vás zajímají a přitahují.",
+      "Říct „ne“, když vás někdo, s kým chodíte nebo koho teprve poznáváte, žádá o něco, co dělat nechcete.",
+      "Svěřit se novému kamarádovi nebo kamarádce či někomu, s kým chodíte, a ukázat mu svou jemnější, citlivější stránku.",
+      "Trpělivě a citlivě poslouchat, když si kamarád nebo kamarádka potřebuje „vypustit páru“ kvůli problémům, které má.",
+      "Dokázat při hádce s blízkým kamarádem nebo kamarádkou odložit pocity křivdy a zášti.",
+      "Udržet rozhovor s někým novým, koho byste rádi poznali blíž.",
+      "Odmítnout nerozumnou prosbu kamaráda nebo kamarádky.",
+      "Říct blízkému kamarádovi nebo kamarádce věci o sobě, za které se stydíte.",
+      "Pomoci blízkému kamarádovi nebo kamarádce dobrat se jádra problému, který řeší.",
+      "Když máte konflikt s blízkým kamarádem nebo kamarádkou, opravdu poslouchat jeho nebo její výtky a nesnažit se mu „číst myšlenky“.",
+      "Být zajímavým a příjemným společníkem, když se s lidmi teprve seznamujete.",
+      "Ozvat se a hájit svá práva, když vás kamarád nebo kamarádka přehlíží nebo se k vám chová bezohledně.",
+      "Nechat nového kamaráda nebo kamarádku poznat, jací doopravdy jste.",
+      "Pomoci blízkému kamarádovi nebo kamarádce zvládnout problémy v rodině nebo se spolužáky.",
+      "Dokázat se při hádce vžít do situace kamaráda nebo kamarádky a opravdu pochopit jeho nebo její pohled.",
+      "Představit se někomu, koho byste rádi poznali (nebo s ním chodili).",
+      "Říct někomu, s kým chodíte nebo koho teprve poznáváte, že dělá něco, co vás uvádí do rozpaků.",
+      "Sundat ochrannou „skořápku“ a důvěřovat blízkému kamarádovi nebo kamarádce.",
+      "Být dobrým a citlivým posluchačem pro kamaráda nebo kamarádku, kteří jsou rozrušení.",
+      "Zdržet se poznámek, kvůli kterým by se neshoda mohla změnit ve velkou hádku.",
+      "Napsat nebo zavolat někomu novému a domluvit si, kdy se sejdete a něco spolu podniknete.",
+      "Ohradit se, když vám blízký kamarád nebo kamarádka nedodrží slib.",
+      "Říct blízkému kamarádovi nebo kamarádce o věcech, které vás potají znepokojují nebo děsí.",
+      "Dokázat říct a udělat něco, co blízkého kamaráda nebo kamarádku podpoří, když je na tom špatně.",
+      "Dokázat s kamarádem nebo kamarádkou vyřešit konkrétní problém, aniž byste sklouzli k obecným výčitkám typu „ty to děláš vždycky“.",
+      "Udělat dobrý první dojem na lidi, se kterými byste se rádi skamarádili (nebo s nimi chodili).",
+      "Říct kamarádovi nebo kamarádce, že vás něčím ranili.",
+      "Říct blízkému kamarádovi nebo kamarádce, jak moc si ho vážíte a jak moc vám na něm záleží.",
+      "Projevit opravdový zájem a soucit, i když vás problém kamaráda nebo kamarádky moc nezajímá.",
+      "Když se na kamaráda nebo kamarádku zlobíte, dokázat uznat, že má svůj oprávněný pohled, i když s ním nesouhlasíte.",
+      "Chodit na večírky nebo akce, kde lidi moc neznáte, abyste navázali nové vztahy.",
+      "Říct někomu, s kým chodíte nebo koho teprve poznáváte, že vás něčím rozzlobil.",
+      "Umět posunout rozhovor s někým, s kým chodíte nebo koho poznáváte, od povrchních témat k tomu, abyste se opravdu poznali.",
+      "Když blízký kamarád nebo kamarádka potřebuje pomoc a podporu, umět poradit tak, aby to dobře přijali.",
+      "Nevybuchnout na blízkého kamaráda nebo kamarádku (i když by to bylo oprávněné), abyste předešli ničivému konfliktu."
+    ],
+    en: [
+      "Asking or suggesting to someone new that you get together and do something, e.g. go out together.",
+      "Telling a friend you don’t like a certain way he or she has been treating you.",
+      "Revealing something intimate about yourself while talking with someone you’re just getting to know.",
+      "Helping a close friend work through his or her thoughts and feelings about a major decision, e.g. choosing a school or what to study.",
+      "Being able to admit that you might be wrong when a disagreement with a close friend begins to build into a serious fight.",
+      "Finding and suggesting things to do with new people whom you find interesting and attractive.",
+      "Saying “no” when someone you are dating or just getting to know asks you to do something you don’t want to do.",
+      "Confiding in a new friend or someone you are dating and letting him or her see your softer, more sensitive side.",
+      "Being able to patiently and sensitively listen to a friend “let off steam” about outside problems he or she is having.",
+      "Being able to put begrudging (resentful) feelings aside when having a fight with a close friend.",
+      "Carrying on conversations with someone new whom you think you might like to get to know.",
+      "Turning down a request by a friend that is unreasonable.",
+      "Telling a close friend things about yourself that you’re ashamed of.",
+      "Helping a close friend get to the heart of a problem he or she is experiencing.",
+      "When having a conflict with a close friend, really listening to his or her complaints and not trying to “read” his or her mind.",
+      "Being an interesting and enjoyable person to be with when first getting to know people.",
+      "Standing up for your rights when a friend is neglecting you or being inconsiderate.",
+      "Letting a new friend get to know the “real you.”",
+      "Helping a close friend cope with family problems or problems with classmates.",
+      "Being able to take a friend’s perspective in a fight and really understand his or her point of view.",
+      "Introducing yourself to someone you might like to get to know (or date).",
+      "Telling someone you are dating or just getting to know that he or she is doing something that embarrasses you.",
+      "Letting down your protective “outer shell” and trusting a close friend.",
+      "Being a good and sensitive listener for a friend who is upset.",
+      "Refraining from saying things that might cause a disagreement to build into a big fight.",
+      "Messaging or calling someone new to set up a time to get together and do something.",
+      "Confronting your close friend when he or she has broken a promise.",
+      "Telling a close friend about the things that secretly make you feel anxious or afraid.",
+      "Being able to say and do things to support a close friend when he or she is feeling down.",
+      "Being able to work through a specific problem with a friend without resorting to global accusations (“you always do that”).",
+      "Presenting good first impressions to people you might like to become friends with (or date).",
+      "Telling a friend that he or she has done something to hurt your feelings.",
+      "Telling a close friend how much you appreciate and care for him or her.",
+      "Being able to show genuine empathetic concern even when a friend’s problem is uninteresting to you.",
+      "When angry with a friend, being able to accept that he or she has a valid point of view even if you don’t agree with that view.",
+      "Going to parties or gatherings where you don’t know people well in order to start up new relationships.",
+      "Telling someone you are dating or just getting to know that he or she has done something that made you angry.",
+      "Knowing how to move a conversation with someone you are dating or getting to know beyond superficial talk to really get to know each other.",
+      "When a close friend needs help and support, being able to give advice in ways that are well received.",
+      "Not exploding at a close friend (even when it is justified) in order to avoid a damaging conflict."
+    ]
+  },
+  factors: [
+    { id:'I', name:'Navazování vztahů', en:'Initiating relationships', items:'1 6 11 16 21 26 31 36',
+      high:{cs:'Snadno oslovují nové lidi, navrhují společný program a v nových kolektivech rychle najdou kontakt.',
+            en:'They easily approach new people, suggest things to do together and quickly connect in new groups.'},
+      low:{cs:'Seznamování a první krok jsou pro ně nepříjemné; spíš čekají, až je osloví druzí.',
+           en:'Getting to know people and making the first move feel uncomfortable; they tend to wait for others to approach them.'},
+      facets:[] },
+    { id:'D', name:'Svěřování se', en:'Self-disclosure', items:'3 8 13 18 23 28 33 38',
+      high:{cs:'Dokážou se svěřit s osobními věcmi a ukázat druhým, jací doopravdy jsou.',
+            en:'They can share personal things and let others see who they really are.'},
+      low:{cs:'Osobní věci si nechávají pro sebe a druhým se otevírají jen pomalu.',
+           en:'They keep personal matters to themselves and open up to others only slowly.'},
+      facets:[] },
+    { id:'N', name:'Ohrazení se', en:'Asserting displeasure', items:'2 7 12 17 22 27 32 37',
+      high:{cs:'Umějí říct, když jim něco vadí, odmítnout a ozvat se, když se k nim někdo nechová férově.',
+            en:'They can say when something bothers them, say no and speak up when someone treats them unfairly.'},
+      low:{cs:'Těžko odmítají a nesouhlas nebo zklamání raději spolknou, než aby ho řekli nahlas.',
+           en:'They find it hard to say no and tend to swallow disagreement or disappointment rather than say it out loud.'},
+      facets:[] },
+    { id:'S', name:'Podpora druhých', en:'Providing emotional support', items:'4 9 14 19 24 29 34 39',
+      high:{cs:'Umějí naslouchat, podpořit a poradit, když je kamarádovi nebo kamarádce zle.',
+            en:'They know how to listen, comfort and give advice when a friend is struggling.'},
+      low:{cs:'Když se druzí trápí, moc nevědí, jak je podpořit, a takové chvíle jsou pro ně nejisté.',
+           en:'When others are struggling, they are unsure how to support them and such moments feel awkward.'},
+      facets:[] },
+    { id:'C', name:'Zvládání konfliktů', en:'Managing conflicts', items:'5 10 15 20 25 30 35 40',
+      high:{cs:'V hádce se dokážou ovládnout, vžít se do druhého, přiznat chybu a hledat řešení.',
+            en:'In a fight they can keep their temper, see the other side, admit mistakes and look for a solution.'},
+      low:{cs:'V konfliktu se snadno nechají unést, hůř uznávají pohled druhého a spor se může vyhrotit.',
+           en:'In a conflict they get carried away more easily, find it harder to accept the other view, and disputes can escalate.'},
+      facets:[] }
+  ]
+};
+
 /* Pořadí dotazníků na úvodní stránce */
-const TEST_ORDER = ['hexaco60', 'hexaco100', 'ipipneo60', 'ipipneo120', 'sras'];
+const TEST_ORDER = ['hexaco60', 'hexaco100', 'ipipneo60', 'ipipneo120', 'sras', 'icq'];
 
 /* =====================================================================
    TEXTY ROZHRANÍ / UI STRINGS
@@ -1372,7 +1533,7 @@ function toast(msg){
 function clearHash(){ history.replaceState(null, '', location.pathname + location.search); }
 
 /* Vlastní odkaz každého dotazníku: …/#asertivita, …/#hexaco-60 atd. */
-const SLUGS = { hexaco60:'hexaco-60', hexaco100:'hexaco-100', ipipneo60:'ipip-neo-60', ipipneo120:'ipip-neo-120', sras:'asertivita' };
+const SLUGS = { hexaco60:'hexaco-60', hexaco100:'hexaco-100', ipipneo60:'ipip-neo-60', ipipneo120:'ipip-neo-120', sras:'asertivita', icq:'icq' };
 const slugOf = id => SLUGS[id] || id;
 const idFromSlug = sl => {
   sl = decodeURIComponent(sl).toLowerCase();
@@ -1422,7 +1583,7 @@ function renderHome(){
                  <button class="btn" data-restart="${t.id}">${u.startOver}</button>`;
     }
     return `<div class="card">
-      <h2>${esc(t.title)}</h2>
+      <h2>${esc(L(t.title))}</h2>
       <p class="muted">${esc(L(t.subtitle))}</p>
       <p>${esc(L(t.about))}</p>
       <p class="small muted">${u.meta(n, esc(L(t.duration)))}</p>
@@ -1446,7 +1607,7 @@ function renderIntro(testId){
   const t = TESTS[testId], u = T();
   render(`
     <button class="btn link" data-home>${u.back}</button>
-    <h1>${esc(t.title)}</h1>
+    <h1>${esc(L(t.title))}</h1>
     <div class="card">
       <h2>${u.instructions}</h2>
       ${t.items[lang] ? '' : `<p class="note">${u.onlyCs}</p>`}
@@ -1561,7 +1722,7 @@ function renderResults(testId, answers, opts = {}, keepScroll){
 
   render(`
     <button class="btn link no-print" data-home>${u.home}</button>
-    <h1>${u.resultsTitle(esc(t.title))}</h1>
+    <h1>${u.resultsTitle(esc(L(t.title)))}</h1>
     ${header}
     <div class="card note" style="box-shadow:none">${u.resultsNote(k, midLabel)}${t.resultsExtra ? '<br><br>' + esc(L(t.resultsExtra)) : ''}</div>
     ${factorCards}
