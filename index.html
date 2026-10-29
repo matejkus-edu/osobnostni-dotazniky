@@ -87,6 +87,59 @@ summary{cursor:pointer;font-weight:600;font-size:.92rem;color:var(--accent)}
 .toast.show{opacity:1}
 footer{margin-top:40px;font-size:.8rem;color:var(--muted);text-align:center}
 
+/* Moje komunikační cíle */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:999px;padding:.4em .9em;cursor:pointer;background:var(--card)}
+.chip input{accent-color:var(--accent);margin:0}
+.chip:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+fieldset.field{border:none;padding:0;margin:16px 0}
+fieldset.field legend{font-weight:600;margin-bottom:8px;padding:0}
+.gsec{color:var(--accent);font-weight:600;margin:22px 0 0}
+.qtext.gq{margin:8px 0 6px;min-height:0}
+.ghints{margin:0 0 6px;padding-left:1.2em;color:var(--muted);font-size:.95rem}
+.grow{margin:18px 0 0}
+.grow-head{margin-bottom:8px}
+.scale5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sopt{font:inherit;font-weight:700;font-size:1.05rem;padding:12px 0;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--text);cursor:pointer}
+.sopt:hover{border-color:var(--accent)}
+.sopt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-text)}
+.sopt.goal[aria-pressed="true"]{background:var(--accent-soft);color:var(--text);box-shadow:inset 0 0 0 2px var(--accent)}
+.scale-ends{display:flex;justify-content:space-between;margin-top:4px}
+.gwho{margin-top:16px}
+.psec{font-size:1rem;margin:22px 0 8px}
+.picks{display:grid;gap:8px}
+.pick{display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--text);cursor:pointer}
+.pick:hover:not(:disabled){border-color:var(--accent)}
+.pick:disabled{opacity:.45;cursor:not-allowed}
+.pick .pbox{width:22px;height:22px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center}
+.pick[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.pick[aria-pressed="true"] .pbox{background:var(--accent);border-color:var(--accent)}
+.pick[aria-pressed="true"] .pbox::after{content:"✓";color:var(--accent-text);font-size:.8rem;font-weight:700}
+.pcount{font-weight:600}
+.pcount.full{color:var(--accent)}
+.gcard h2{margin-bottom:.1em}
+.glist{list-style:none;padding:0;margin:12px 0 0}
+.gr{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.gr:first-child{border-top:none}
+.gl b{font-weight:600}
+.gfull{display:block}
+.glist.compact .gfull{display:none}
+.glist.compact .gr{padding:6px 0}
+.gm{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.tag{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-left:4px}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--track)}
+.dots i.on{background:var(--accent)}
+.dots.goal i{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line)}
+.dots.goal i.on{box-shadow:inset 0 0 0 2.5px var(--accent)}
+.gnote{grid-column:1 / -1;color:var(--accent);font-weight:600}
+.star{color:var(--accent);margin-right:4px}
+.gcard.gs{border-left:4px solid var(--accent)}
+.gcard.gi{border-left:4px solid var(--muted)}
+#gnote{width:100%;font:inherit;padding:.6em .8em;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);resize:vertical}
+.print-only{display:none}
+@media (max-width:520px){ .gr{grid-template-columns:1fr} }
+
 @media print{
   body{background:#fff;color:#000;font-size:11pt}
   main{max-width:none;padding:0}
@@ -94,6 +147,21 @@ footer{margin-top:40px;font-size:.8rem;color:var(--muted);text-align:center}
   .no-print,.results-actions,.toast,.topbar{display:none!important}
   .bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   summary{color:#000}
+  .gcard{padding:10px 16px;margin:8px 0;break-inside:auto}
+  .gcard h2,.gcard .muted{break-after:avoid}
+  .gr{padding:6px 0}
+  .gcard.gstep{break-inside:avoid}
+  .goverview details{border-top:none;padding-top:0;margin-top:0}
+  .gcard.gs,.gcard.gi{border-left-width:4px}
+  .dots i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .goverview{break-before:page}
+  .goverview summary{list-style:none;font-size:1.25rem;color:#000}
+  .goverview summary::-webkit-details-marker{display:none}
+  #gnote{display:none}
+  .print-only{display:block}
+  .gnote-print .line{display:block;border-bottom:1px solid #999;height:1.9em}
+  .gr{break-inside:avoid}
+  h1{font-size:1.5rem}
 }
 </style>
 </head>
@@ -1530,8 +1598,163 @@ TESTS.iccs = {
   ]
 };
 
+/* =====================================================================
+   MOJE KOMUNIKAČNÍ CÍLE – reflexní dotazník (autor: Matěj Kůs)
+   Každý výrok se hodnotí dvakrát: „reálně“ (jak to je teď) a „cíl“
+   (jak důležité to je). Na konci si student vybere max. 5 nejdůležitějších cílů.
+   Odpovědi: answers[0..n-1] = reálně, answers[n..2n-1] = cíl.
+   ===================================================================== */
+const GOALS_SECTIONS = [
+  { title:{cs:'Jakým dojmem v komunikaci působím?', en:'What impression do I make when communicating?'}, items:[
+    { t:{cs:'Působím pozitivně, optimisticky a vesele.', en:'I come across as positive, optimistic and cheerful.'},
+      label:{cs:'pozitivita a optimismus', en:'positivity and optimism'} },
+    { t:{cs:'Působím uvolněně a v klidu.', en:'I come across as relaxed and calm.'},
+      label:{cs:'uvolněnost a klid', en:'being relaxed and calm'} },
+    { t:{cs:'Působím sebejistě.', en:'I come across as self-confident.'},
+      label:{cs:'sebejistota', en:'self-confidence'} },
+    { t:{cs:'Působím pokorně a skromně.', en:'I come across as humble and modest.'},
+      label:{cs:'pokora a skromnost', en:'humility and modesty'} },
+    { t:{cs:'Působím vřele, přátelsky a neformálně.', en:'I come across as warm, friendly and informal.'},
+      label:{cs:'vřelost a přátelskost', en:'warmth and friendliness'} }
+  ]},
+  { title:{cs:'Jaké jsou mé konverzační schopnosti?', en:'What are my conversation skills like?'}, items:[
+    { t:{cs:'Vyjadřuji se jasně a srozumitelně.', en:'I express myself clearly and understandably.'},
+      h:{cs:['Druhý snadno rozumí tomu, co říkám.', 'Mé promluvy mají jasnou logickou strukturu.'],
+         en:['The other person easily understands what I say.', 'What I say has a clear logical structure.']},
+      label:{cs:'jasnost a srozumitelnost', en:'clarity'} },
+    { t:{cs:'Vyjadřuji se výstižně a stručně.', en:'I express myself concisely and to the point.'},
+      h:{cs:['Nepotřebuji mnoho zbytečných slov, abych vyjádřil/a to, co chci.'],
+         en:['I don’t need lots of unnecessary words to say what I want.']},
+      label:{cs:'výstižnost a stručnost', en:'being concise'} },
+    { t:{cs:'Málokdy jen povrchně „plácám“, konverzace se mnou mají hloubku.', en:'I rarely just chat about nothing; conversations with me have depth.'},
+      label:{cs:'hloubka rozhovorů', en:'depth in conversation'} },
+    { t:{cs:'Vyjadřuji se expresivně.', en:'I express myself vividly and emotionally.'},
+      h:{cs:['Používám expresivní a emotivní slova i symboly (např. emoji).'],
+         en:['I use expressive, emotional words and symbols (e.g. emoji).']},
+      label:{cs:'expresivnost a emotivnost', en:'expressiveness'} },
+    { t:{cs:'Používám hodně humoru a umím konverzaci udělat zábavnou.', en:'I use a lot of humour and can make a conversation fun.'},
+      label:{cs:'humor', en:'humour'} }
+  ]},
+  { title:{cs:'Jak projevuji a prosazuji sebe sama?', en:'How do I express and stand up for myself?'}, items:[
+    { t:{cs:'Projevuji se otevřeně.', en:'I am open about myself.'},
+      h:{cs:['Dávám otevřeně najevo, co si myslím a co cítím.', 'Neskrývám se před blízkým člověkem jen proto, abych působil/a lépe. Chci, aby mě viděl takového/takovou, jaký/á jsem.'],
+         en:['I openly show what I think and feel.', 'I don’t hide from the person just to look better. I want them to see me as I am.']},
+      label:{cs:'otevřenost a sdílení', en:'openness and sharing'} },
+    { t:{cs:'Jsem upřímný/á.', en:'I am honest.'},
+      h:{cs:['Neříkám věci, se kterými nesouzním, jen proto, abych se zalíbil/a nebo druhému vyhověl/a.'],
+         en:['I don’t say things I don’t mean just to be liked or to please the other person.']},
+      label:{cs:'upřímnost', en:'honesty'} },
+    { t:{cs:'Jsem asertivní.', en:'I am assertive.'},
+      h:{cs:['Sebevědomě vyjadřuji své myšlenky, pocity a potřeby.', 'Umím hájit a prosazovat své zájmy.', 'Umím říkat „ne“.'],
+         en:['I express my thoughts, feelings and needs confidently.', 'I can stand up for my interests.', 'I can say “no”.']},
+      label:{cs:'asertivita, prosazení svých potřeb', en:'assertiveness'} },
+    { t:{cs:'Jsem spíše dominantní než submisivní.', en:'I am more dominant than submissive.'},
+      h:{cs:['Spíše přebírám kontrolu, než že bych se přizpůsoboval/a nebo ustupoval/a.', 'V rozhovoru jsem to spíše já, kdo rozhoduje o jeho směřování.'],
+         en:['I tend to take control rather than adapt or give way.', 'In conversation, I’m usually the one who decides where it goes.']},
+      label:{cs:'dominance, vedení rozhovoru', en:'dominance, leading the conversation'} }
+  ]},
+  { title:{cs:'Jak se chovám k blízkému člověku?', en:'How do I treat the person close to me?'}, items:[
+    { t:{cs:'K blízkému člověku se chovám s respektem a s úctou.', en:'I treat the person with respect.'},
+      h:{cs:['Komunikuji s ním jako se sobě rovným.', 'Neodsuzuji, neponižuji, nezesměšňuji, nekritizuji.'],
+         en:['I communicate with them as an equal.', 'I don’t judge, belittle, mock or criticise.']},
+      label:{cs:'respekt a úcta', en:'respect'} },
+    { t:{cs:'K blízkému člověku se chovám empaticky a s porozuměním.', en:'I treat the person with empathy and understanding.'},
+      h:{cs:['Při komunikaci myslím na to, jak se cítí. Umím se vžít do jeho kůže.', 'Svou empatii a soucit mu dávám najevo.'],
+         en:['When we talk, I think about how they feel. I can put myself in their shoes.', 'I show my empathy and compassion.']},
+      label:{cs:'empatie a porozumění', en:'empathy and understanding'} },
+    { t:{cs:'Chovám se ohleduplně a rozvážně, abych blízkému člověku neublížil/a.', en:'I am considerate and careful not to hurt the person.'},
+      h:{cs:['Svá slova volím opatrně. Je pro mě důležité neranit jeho city.'],
+         en:['I choose my words carefully. Not hurting their feelings matters to me.']},
+      label:{cs:'ohleduplnost a rozvážnost', en:'consideration'} },
+    { t:{cs:'Projevuji o blízkého člověka upřímný zájem. Jsem k němu pozorný/á a dobře mu naslouchám.', en:'I show genuine interest in the person. I am attentive and listen well.'},
+      h:{cs:['Ptám se na jeho život. Zajímám se o to, co říká.', 'Když mluví, věnuji mu plnou pozornost.'],
+         en:['I ask about their life. I’m interested in what they say.', 'When they talk, I give them my full attention.']},
+      label:{cs:'zájem a naslouchání', en:'interest and listening'} },
+    { t:{cs:'Jsem podporující, nápomocný/á a pečující.', en:'I am supportive, helpful and caring.'},
+      h:{cs:['Umím blízkému člověku pomoct, poradit nebo ho utěšit tak, že to dobře přijme.'],
+         en:['I can help, advise or comfort the person in a way they welcome.']},
+      label:{cs:'podpora a péče', en:'support and care'} },
+    { t:{cs:'Projevuji blízkému člověku svou náklonnost. Dávám mu najevo, že mi na něm záleží.', en:'I show the person my affection. I let them know they matter to me.'},
+      label:{cs:'projevy náklonnosti', en:'showing affection'} },
+    { t:{cs:'Umím blízkého člověka ocenit.', en:'I know how to show the person appreciation.'},
+      h:{cs:['Vyjadřuji svůj vděk.', 'Chválím a skládám komplimenty.'],
+         en:['I express my gratitude.', 'I praise and pay compliments.']},
+      label:{cs:'oceňování (vděk, komplimenty)', en:'appreciation (thanks, compliments)'} }
+  ]},
+  { title:{cs:'Jak se chovám, když je mezi námi konflikt nebo napětí?', en:'How do I behave when there is conflict or tension between us?'}, items:[
+    { t:{cs:'Jsem spíše nekonfliktní, konfliktům se vyhýbám.', en:'I tend to avoid conflict.'},
+      h:{cs:['Blízkého člověka příliš nekonfrontuji s problémy, které se objeví, ani se svým nesouhlasem.'],
+         en:['I rarely confront the person with problems as they come up, or with my disagreement.']},
+      label:{cs:'vyhýbání se konfliktům', en:'avoiding conflict'} },
+    { t:{cs:'Při konfliktu zachovávám „chladnou hlavu“.', en:'I keep a cool head in a conflict.'},
+      h:{cs:['Umím své negativní pocity (dotčenost, rozhořčení…) dát stranou.', 'Zachovávám klid a trpělivost. Nevybuchuji vzteky.'],
+         en:['I can put negative feelings (hurt, indignation…) aside.', 'I stay calm and patient. I don’t explode with anger.']},
+      label:{cs:'„chladná hlava“', en:'keeping a cool head'} },
+    { t:{cs:'Při konfliktu jsem konstruktivní a spolupracuji.', en:'In a conflict I am constructive and cooperative.'},
+      h:{cs:['Snažím se najít řešení.', 'Umím přistoupit na kompromis.'],
+         en:['I try to find a solution.', 'I can agree to a compromise.']},
+      label:{cs:'hledání řešení a spolupráce', en:'finding solutions together'} },
+    { t:{cs:'Umím se omluvit a přiznat chybu.', en:'I can apologise and admit a mistake.'},
+      label:{cs:'omluva a přiznání chyby', en:'apologising, admitting mistakes'} },
+    { t:{cs:'Jsem shovívavý/á a snadno odpouštím.', en:'I am forgiving and forgive easily.'},
+      label:{cs:'odpouštění', en:'forgiveness'} }
+  ]},
+  { title:{cs:'Jak pečuji o náš vztah?', en:'How do I look after our relationship?'}, items:[
+    { t:{cs:'Dávám blízkému člověku jistotu, že se na mě a na náš vztah může spolehnout.', en:'I let the person know they can rely on me and on our relationship.'},
+      h:{cs:['Dodržuji, co slíbím, a jsem tu, když mě potřebuje.', 'Mluvíme o tom, co spolu ještě podnikneme.'],
+         en:['I keep my promises and I’m there when they need me.', 'We talk about things we will do together in the future.']},
+      label:{cs:'spolehlivost', en:'reliability'} },
+    { t:{cs:'Umím mluvit o našem vztahu.', en:'I can talk about our relationship.'},
+      h:{cs:['Řeknu otevřeně, jak se ve vztahu cítím a co od něj potřebuji.', 'Zajímá mě, jak se ve vztahu cítí ten druhý a co potřebuje on.'],
+         en:['I say openly how I feel in the relationship and what I need from it.', 'I care how the other person feels in it and what they need.']},
+      label:{cs:'rozhovory o vztahu', en:'talking about the relationship'} }
+  ]}
+];
+const GOALS_ITEMS = GOALS_SECTIONS.flatMap((s, si) => s.items.map(it => ({ ...it, section: si })));
+const GOALS_MAX_PICKS = 5;
+const GOALS_PERSONS = [
+  {cs:'kamarád nebo kamarádka', en:'a friend'},
+  {cs:'rodič', en:'a parent'},
+  {cs:'sourozenec', en:'a sibling'},
+  {cs:'partner nebo partnerka', en:'a partner'},
+  {cs:'někdo jiný', en:'someone else'}
+];
+
+TESTS.cile = {
+  id: 'cile',
+  kind: 'goals',
+  title: {cs:'Moje komunikační cíle', en:'My Communication Goals'},
+  subtitle: {cs:'Jak komunikuji s blízkým člověkem – a jak bych chtěl/a', en:'How I communicate with someone close – and how I’d like to'},
+  about: {
+    cs:'Vyberete si jednoho blízkého člověka a u 28 výroků o komunikaci ohodnotíte, jak to je teď a jak důležité je to pro vás jako cíl. Nakonec si zvolíte nejvýš 5 nejdůležitějších cílů. Výsledkem je přehled vašich silných stránek a toho, na čem chcete pracovat, který si můžete uložit jako PDF.',
+    en:'You choose one person close to you and rate 28 statements about communication: how things are now and how important each is to you as a goal. Finally you pick up to 5 most important goals. You get an overview of your strengths and what you want to work on, which you can save as a PDF.'
+  },
+  duration: {cs:'cca 10–15 minut', en:'about 10–15 minutes'},
+  credit: {
+    cs:'Autor: Matěj Kůs. Nejde o standardizovaný psychologický test, ale o nástroj k zamyšlení.',
+    en:'Author: Matěj Kůs. This is not a standardised psychological test but a tool for reflection.'
+  },
+  scale: [1, 2, 3, 4, 5].map(v => ({ v, label: { cs: String(v), en: String(v) } })),
+  instructions: {
+    cs:[
+      'Vyberte si jednoho konkrétního blízkého člověka – kamaráda nebo kamarádku, rodiče, sourozence, partnera nebo partnerku. Na něj myslete u všech výroků.',
+      'U každého výroku odpovíte dvakrát na škále 1 (málo) až 5 (hodně). Reálně: nakolik na vás výrok ve vztahu s tímto člověkem platí teď. Cíl: jak důležité by pro vás bylo, aby platil.',
+      'Některé výroky nemají správnou odpověď – víc není vždycky lépe. Rozhodněte se, co chcete vy.',
+      'Na konci si vyberete nejvýš 5 cílů, které jsou pro vás nejdůležitější, a dostanete přehled, který si můžete uložit jako PDF.'
+    ],
+    en:[
+      'Choose one specific person close to you – a friend, a parent, a sibling or a partner. Keep them in mind for every statement.',
+      'You will answer each statement twice on a scale from 1 (a little) to 5 (a lot). Now: how true the statement is for you in this relationship at the moment. Goal: how important it would be to you for it to be true.',
+      'Some statements have no right answer – more is not always better. Decide what you want.',
+      'At the end you pick up to 5 goals that matter most to you and get an overview you can save as a PDF.'
+    ]
+  },
+  items: { cs: GOALS_ITEMS.map(i => i.t.cs), en: GOALS_ITEMS.map(i => i.t.en) },
+  factors: []
+};
+
 /* Pořadí dotazníků na úvodní stránce */
-const TEST_ORDER = ['hexaco60', 'hexaco100', 'ipipneo60', 'ipipneo120', 'sras', 'icq', 'iccs'];
+const TEST_ORDER = ['hexaco60', 'hexaco100', 'ipipneo60', 'ipipneo120', 'sras', 'icq', 'iccs', 'cile'];
 
 /* =====================================================================
    TEXTY ROZHRANÍ / UI STRINGS
@@ -1618,8 +1841,7 @@ function applyLang(){
 }
 function setLang(l){
   if (!LANGS.includes(l) || l === lang) return;
-  const nameInput = document.getElementById('name');
-  if (nameInput) draftName = nameInput.value;
+  captureDraft();
   lang = l;
   try { localStorage.setItem('dotaznik:lang', l); } catch(e){}
   const params = new URLSearchParams(location.search);
@@ -1689,7 +1911,7 @@ function toast(msg){
 function clearHash(){ history.replaceState(null, '', location.pathname + location.search); }
 
 /* Vlastní odkaz každého dotazníku: …/#asertivita, …/#hexaco-60 atd. */
-const SLUGS = { hexaco60:'hexaco-60', hexaco100:'hexaco-100', ipipneo60:'ipip-neo-60', ipipneo120:'ipip-neo-120', sras:'asertivita', icq:'icq', iccs:'iccs' };
+const SLUGS = { hexaco60:'hexaco-60', hexaco100:'hexaco-100', ipipneo60:'ipip-neo-60', ipipneo120:'ipip-neo-120', sras:'asertivita', icq:'icq', iccs:'iccs', cile:'cile' };
 const slugOf = id => SLUGS[id] || id;
 const idFromSlug = sl => {
   sl = decodeURIComponent(sl).toLowerCase();
@@ -1727,14 +1949,13 @@ function renderHome(){
   rerender = () => renderHome();
   const u = T();
   const cards = TEST_ORDER.map(id => TESTS[id]).map(t => {
-    const n = itemCount(t);
     const saved = store.get(storeKey(t.id));
-    const done = saved ? saved.answers.filter(a => a != null).length : 0;
+    const { done, n, complete } = progressOf(t, saved);
     let actions = `<button class="btn primary" data-start="${t.id}">${u.start}</button>`;
-    if (saved && done === n) {
+    if (complete) {
       actions = `<button class="btn primary" data-results="${t.id}">${u.showMine}</button>
                  <button class="btn" data-restart="${t.id}">${u.retake}</button>`;
-    } else if (done > 0) {
+    } else if (done > 0 || (saved && saved.picks && saved.picks.length)) {
       actions = `<button class="btn primary" data-resume="${t.id}">${u.resume(done, n)}</button>
                  <button class="btn" data-restart="${t.id}">${u.startOver}</button>`;
     }
@@ -1768,6 +1989,7 @@ function renderIntro(testId){
       <h2>${u.instructions}</h2>
       ${t.items[lang] ? '' : `<p class="note">${u.onlyCs}</p>`}
       <ul class="clean">${L(t.instructions).map(i => `<li>${esc(i)}</li>`).join('')}</ul>
+      ${isGoals(t) ? goalsIntroFields() : ''}
       <label class="field">
         <span>${u.nameLabel} <span class="muted small">${u.optional}</span></span>
         <input type="text" id="name" maxlength="60" autocomplete="off" placeholder="${esc(u.namePh)}" value="${esc(draftName)}">
@@ -1782,6 +2004,7 @@ function renderIntro(testId){
 }
 
 function renderQuestion(){
+  if (isGoals(TESTS[state.testId])) return renderGoalsQuestion();
   view = 'question'; currentTestId = state.testId;
   rerender = () => renderQuestion();
   setTestHash(state.testId);
@@ -1932,6 +2155,365 @@ function downloadCSV(t, answers, scores, name){
 /* =====================================================================
    OVLÁDÁNÍ / CONTROLS
    ===================================================================== */
+/* =====================================================================
+   MOJE KOMUNIKAČNÍ CÍLE – obrazovky a výpočty
+   ===================================================================== */
+const GU = {
+  cs: {
+    personQ:'Na koho budete při vyplňování myslet?', personName:'Kdo to je?', personNamePh:'Zobrazí se jen ve vašem přehledu',
+    pickPerson:'Vyberte prosím, na koho budete myslet.',
+    thinking:p => `Myslíte na: ${p}`,
+    now:'Reálně', nowHint:'nakolik to platí teď', goal:'Cíl', goalHint:'jak důležité je to pro mě',
+    little:'málo', lot:'hodně',
+    kbd:'Klávesami 1–5 odpovíte nejdřív „reálně“, pak „cíl“. Šipkami se pohybujete mezi výroky.',
+    toPicks:'Pokračovat k výběru →',
+    picksTitle:'Co je pro vás nejdůležitější?',
+    picksLead:'Vyberte nejvýš 5 cílů, na kterých vám ve vztahu s tímto člověkem záleží nejvíc. U každého vidíte, jak jste ho ohodnotili.',
+    pickedCount:(k, m) => `Vybráno ${k} z ${m}`, backToItems:'← Zpět k výrokům', showOverview:'Zobrazit můj přehled',
+    nowShort:'teď', goalShort:'cíl',
+    resultsTitle:'Moje komunikační cíle', relation:'Vztah',
+    howTo:'<b>Silné stránky</b> jsou výroky, které jste u „reálně“ ohodnotili nejvýš. <b>Prostor pro zlepšení</b> ukazuje, kde je největší rozdíl mezi tím, jak to je teď, a vaším cílem – cíle, které jste si vybrali jako nejdůležitější (★), mají v pořadí přednost. Nejde o test, přehled je podnět k zamyšlení.',
+    strengths:'Moje silné stránky', strengthsLead:'V čem jsem ve vztahu s tímto člověkem dobrý/á už teď.',
+    noStrengths:'Žádný výrok jste u „reálně“ neohodnotili čtyřkou ani pětkou. V celkovém přehledu najdete, kde máte hodnocení nejvyšší.',
+    improve:'Prostor pro zlepšení', improveLead:'Kde je největší rozdíl mezi tím, jak to je teď, a tím, co chci.',
+    noImprove:'U žádného výroku není váš cíl vyšší než současný stav – jste tam, kde chcete být.',
+    important:'Co je pro mě nejdůležitější', importantLead:'Cíle, které jsem si vybral/a jako nejdůležitější.',
+    noImportant:'Žádný cíl jste nevybrali jako nejdůležitější.',
+    less:'Kde chci ubrat', lessLead:'Tady je současný stav vyšší než můj cíl – chtěl/a bych toho dělat méně.',
+    overview:'Celkový přehled',
+    step:'Můj první krok', stepLead:'Co konkrétně udělám, abych se ke svému cíli přiblížil/a?',
+    stepPh:'Např. Když mě kamarádka bude o něco prosit a já nebudu chtít, zkusím říct „ne“ a vysvětlit proč.',
+    move:d => `chci posunout o ${d}`, there:'tady jsem tam, kde chci být', above:'tady jsem nad svým cílem',
+    reduce:d => `chci ubrat o ${d}`, alsoImportant:'patří mezi mé nejdůležitější cíle',
+    pdf:'Uložit jako PDF', pdfHint:'Otevře se okno tisku – jako tiskárnu zvolte „Uložit jako PDF“.', pdfName:'komunikacni-cile',
+    csvPerson:'vztah', csvPicked:'nejdulezitejsi', of5:v => `${v} z 5`
+  },
+  en: {
+    personQ:'Who will you be thinking of?', personName:'Who is it?', personNamePh:'Shown only in your overview',
+    pickPerson:'Please choose who you will be thinking of.',
+    thinking:p => `Thinking of: ${p}`,
+    now:'Now', nowHint:'how true this is at the moment', goal:'Goal', goalHint:'how important this is to me',
+    little:'a little', lot:'a lot',
+    kbd:'Keys 1–5 answer “now” first, then “goal”. Use the arrow keys to move between statements.',
+    toPicks:'Continue to your choice →',
+    picksTitle:'What matters most to you?',
+    picksLead:'Pick up to 5 goals that matter most to you in this relationship. Your ratings are shown next to each one.',
+    pickedCount:(k, m) => `${k} of ${m} selected`, backToItems:'← Back to the statements', showOverview:'Show my overview',
+    nowShort:'now', goalShort:'goal',
+    resultsTitle:'My Communication Goals', relation:'Relationship',
+    howTo:'<b>Strengths</b> are the statements you rated highest for “now”. <b>Room to grow</b> shows where the gap between how things are now and your goal is biggest – goals you chose as most important (★) come first. This is not a test; the overview is a prompt for reflection.',
+    strengths:'My strengths', strengthsLead:'What I already do well in this relationship.',
+    noStrengths:'You did not rate any statement 4 or 5 for “now”. The full overview shows where your ratings are highest.',
+    improve:'Room to grow', improveLead:'Where the gap between how things are now and what I want is biggest.',
+    noImprove:'For no statement is your goal higher than how things are now – you are where you want to be.',
+    important:'What matters most to me', importantLead:'The goals I chose as most important.',
+    noImportant:'You did not choose any goal as most important.',
+    less:'Where I want less', lessLead:'Here things are already above my goal – I would like to do less of this.',
+    overview:'Full overview',
+    step:'My first step', stepLead:'What exactly will I do to get closer to my goal?',
+    stepPh:'E.g. When my friend asks me for something I don’t want to do, I’ll try saying “no” and explain why.',
+    move:d => `I want to move up by ${d}`, there:'I’m where I want to be', above:'I’m above my goal here',
+    reduce:d => `I want to reduce by ${d}`, alsoImportant:'one of my most important goals',
+    pdf:'Save as PDF', pdfHint:'A print window opens – choose “Save as PDF” as the printer.', pdfName:'communication-goals',
+    csvPerson:'relationship', csvPicked:'most_important', of5:v => `${v} of 5`
+  }
+};
+const G = () => GU[lang];
+const isGoals = t => !!t && t.kind === 'goals';
+const gN = () => GOALS_ITEMS.length;
+const gItemDone = (st, i) => st.answers[i] != null && st.answers[gN() + i] != null;
+function gDoneCount(st){ let c = 0; for (let i = 0; i < gN(); i++) if (gItemDone(st, i)) c++; return c; }
+function gFirstMissing(st){ for (let i = 0; i < gN(); i++) if (!gItemDone(st, i)) return i; return -1; }
+const gPersonLabel = p => (p != null && GOALS_PERSONS[p]) ? L(GOALS_PERSONS[p]) : '';
+
+/* Postup v dotazníku pro úvodní stránku (funguje pro oba typy dotazníků) */
+function progressOf(t, saved){
+  const n = itemCount(t);
+  if (!saved || !saved.answers) return { done: 0, n, complete: false };
+  if (isGoals(t)) return { done: gDoneCount(saved), n, complete: !!saved.finished };
+  const done = saved.answers.filter(a => a != null).length;
+  return { done, n, complete: done === n };
+}
+/* Pokračování v rozpracovaném dotazníku */
+function resumeSaved(saved){
+  state = saved;
+  if (isGoals(TESTS[state.testId])) {
+    const miss = gFirstMissing(state);
+    if (miss === -1) return renderPicks();
+    state.index = miss;
+    return renderQuestion();
+  }
+  const miss = state.answers.findIndex(a => a == null);
+  state.index = miss === -1 ? state.answers.length - 1 : miss;
+  return renderQuestion();
+}
+function openSavedResults(id, saved){
+  if (isGoals(TESTS[id])) return renderGoalsResults(id, saved.answers, saved.picks || [], { own: true, name: saved.name, person: saved.person, personName: saved.personName });
+  return renderResults(id, saved.answers, { name: saved.name });
+}
+
+/* Doplňková pole na úvodní obrazovce: na koho student myslí */
+let draftPerson = null, draftPersonName = '';
+function goalsIntroFields(){
+  const g = G();
+  return `<fieldset class="field gpersons"><legend>${g.personQ}</legend>
+      <div class="chips">${GOALS_PERSONS.map((p, i) => `<label class="chip"><input type="radio" name="person" value="${i}" ${draftPerson === i ? 'checked' : ''}><span>${esc(L(p))}</span></label>`).join('')}</div>
+    </fieldset>
+    <label class="field">
+      <span>${g.personName} <span class="muted small">${T().optional}</span></span>
+      <input type="text" id="personName" maxlength="40" autocomplete="off" placeholder="${esc(g.personNamePh)}" value="${esc(draftPersonName)}">
+    </label>`;
+}
+function captureDraft(){
+  const n = document.getElementById('name'); if (n) draftName = n.value;
+  const pn = document.getElementById('personName'); if (pn) draftPersonName = pn.value;
+  const pr = document.querySelector('input[name=person]:checked'); if (pr) draftPerson = Number(pr.value);
+}
+function startGoals(testId){
+  captureDraft();
+  if (draftPerson == null) { toast(G().pickPerson); return; }
+  state = { testId, answers: Array(2 * gN()).fill(null), picks: [], index: 0, name: draftName.trim(),
+            person: draftPerson, personName: draftPersonName.trim(), finished: false, note: '' };
+  draftName = ''; draftPerson = null; draftPersonName = '';
+  save();
+  renderQuestion();
+}
+
+/* Otázka: jeden výrok, dvě řady hodnocení */
+function gScaleRow(row, cur){
+  const g = G();
+  return `<div class="grow">
+    <div class="grow-head"><b>${row === 'now' ? g.now : g.goal}</b> <span class="muted small">${row === 'now' ? g.nowHint : g.goalHint}</span></div>
+    <div class="scale5" role="group" aria-label="${row === 'now' ? g.now : g.goal}">
+      ${[1, 2, 3, 4, 5].map(v => `<button class="sopt ${row}" data-g="${row}" data-v="${v}" aria-pressed="${cur === v}">${v}</button>`).join('')}
+    </div>
+    <div class="scale-ends small muted"><span>${g.little}</span><span>${g.lot}</span></div>
+  </div>`;
+}
+function renderGoalsQuestion(keepScroll){
+  view = 'question'; currentTestId = state.testId;
+  rerender = () => renderGoalsQuestion(true);
+  setTestHash(state.testId);
+  const u = T(), g = G(), n = gN(), i = state.index, it = GOALS_ITEMS[i];
+  const done = gDoneCount(state);
+  const firstMissing = gFirstMissing(state);
+  const isLast = i === n - 1;
+  const sec = GOALS_SECTIONS[it.section];
+  let nextBtn;
+  if (!isLast) nextBtn = `<button class="btn" data-next ${gItemDone(state, i) ? '' : 'disabled'}>${u.next}</button>`;
+  else if (firstMissing === -1) nextBtn = `<button class="btn primary" data-gpicks>${g.toPicks}</button>`;
+  else nextBtn = `<button class="btn" data-goto="${firstMissing}">${u.missing(n - done)}</button>`;
+  const who = gPersonLabel(state.person) + (state.personName ? ` (${state.personName})` : '');
+  render(`
+    <div class="qtop">
+      <button class="btn link" data-home>${u.pause}</button>
+      <span>${u.counter(i + 1, n)}</span>
+    </div>
+    <div class="progress" aria-hidden="true"><div style="width:${(done / n) * 100}%"></div></div>
+    <p class="gsec small">${it.section + 1}. ${esc(L(sec.title))}</p>
+    <p class="qtext gq">${esc(L(it.t))}</p>
+    ${it.h ? `<ul class="ghints">${L(it.h).map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
+    ${gScaleRow('now', state.answers[i])}
+    ${gScaleRow('goal', state.answers[n + i])}
+    <p class="small muted gwho">${esc(g.thinking(who))}</p>
+    <div class="qnav">
+      <button class="btn" data-prev ${i === 0 ? 'disabled' : ''}>${u.prev}</button>
+      ${nextBtn}
+    </div>
+    <p class="kbd-hint small muted">${g.kbd}</p>
+  `, keepScroll);
+}
+function goalsAnswer(row, v){
+  const n = gN(), i = state.index;
+  state.answers[row === 'now' ? i : n + i] = v;
+  save();
+  clearTimeout(advanceTimer);
+  renderGoalsQuestion(true);
+  if (gItemDone(state, i) && i < n - 1) {
+    advanceTimer = setTimeout(() => {
+      if (view === 'question' && state && state.index === i) { state.index++; save(); renderGoalsQuestion(); }
+    }, 350);
+  }
+}
+function goalsKey(e){
+  const n = parseInt(e.key, 10), i = state.index, N = gN();
+  if (n >= 1 && n <= 5) {
+    e.preventDefault();
+    return goalsAnswer(state.answers[i] == null ? 'now' : 'goal', n);
+  }
+  if (e.key === 'ArrowLeft' && i > 0) { clearTimeout(advanceTimer); state.index--; save(); renderGoalsQuestion(); }
+  if (e.key === 'ArrowRight' && i < N - 1 && gItemDone(state, i)) { clearTimeout(advanceTimer); state.index++; save(); renderGoalsQuestion(); }
+}
+
+/* Výběr nejdůležitějších cílů */
+function renderPicks(keepScroll){
+  view = 'picks'; currentTestId = state.testId;
+  rerender = () => renderPicks(true);
+  setTestHash(state.testId);
+  const g = G(), n = gN(), picks = state.picks || (state.picks = []);
+  const full = picks.length >= GOALS_MAX_PICKS;
+  const groups = GOALS_SECTIONS.map((s, si) => {
+    const rows = GOALS_ITEMS.map((it, i) => ({ it, i })).filter(x => x.it.section === si).map(({ it, i }) => {
+      const on = picks.includes(i);
+      return `<button class="pick" data-gpick="${i}" aria-pressed="${on}" ${!on && full ? 'disabled' : ''}>
+        <span class="pbox" aria-hidden="true"></span>
+        <span class="plabel">${esc(L(it.label))}</span>
+        <span class="pvals small muted">${g.nowShort} ${state.answers[i]} · ${g.goalShort} ${state.answers[n + i]}</span>
+      </button>`;
+    }).join('');
+    return `<h3 class="psec">${si + 1}. ${esc(L(s.title))}</h3><div class="picks">${rows}</div>`;
+  }).join('');
+  render(`
+    <div class="qtop">
+      <button class="btn link" data-home>${T().pause}</button>
+      <span class="pcount ${full ? 'full' : ''}">${g.pickedCount(picks.length, GOALS_MAX_PICKS)}</span>
+    </div>
+    <h1>${g.picksTitle}</h1>
+    <p class="muted">${g.picksLead}</p>
+    ${groups}
+    <div class="qnav">
+      <button class="btn" data-gback>${g.backToItems}</button>
+      <button class="btn primary" data-gfinish>${g.showOverview}</button>
+    </div>
+  `, keepScroll);
+}
+function togglePick(i){
+  const p = state.picks;
+  const k = p.indexOf(i);
+  if (k >= 0) p.splice(k, 1);
+  else if (p.length < GOALS_MAX_PICKS) p.push(i);
+  p.sort((a, b) => a - b);
+  save();
+  renderPicks(true);
+}
+
+/* Výpočty pro přehled */
+function goalsAnalysis(answers, picks){
+  const n = gN();
+  const items = GOALS_ITEMS.map((it, i) => {
+    const now = answers[i], goal = answers[n + i];
+    return { i, it, now, goal, gap: goal - now, picked: picks.includes(i) };
+  });
+  // silné stránky: nejvyšší „reálně“ (alespoň 4); při shodě vybrané cíle, pak vyšší cíl
+  const strengths = items.filter(x => x.now >= 4)
+    .sort((a, b) => b.now - a.now || b.picked - a.picked || b.goal - a.goal || a.i - b.i).slice(0, 5);
+  // prostor pro zlepšení: největší rozdíl cíl − reálně; vybrané cíle dostanou přednost (+1,5)
+  const prio = x => x.gap + (x.picked ? 1.5 : 0);
+  const improve = items.filter(x => x.gap >= 1)
+    .sort((a, b) => prio(b) - prio(a) || b.goal - a.goal || a.i - b.i).slice(0, 5);
+  const important = items.filter(x => x.picked);
+  // kde chci ubrat: reálně je výš než cíl
+  const less = items.filter(x => x.gap <= -1).sort((a, b) => a.gap - b.gap || a.i - b.i).slice(0, 5);
+  return { items, strengths, improve, important, less };
+}
+const gDots = (v, cls) => `<span class="dots ${cls || ''}" role="img" aria-label="${G().of5(v)}">${[1, 2, 3, 4, 5].map(k => `<i class="${k <= v ? 'on' : ''}"></i>`).join('')}</span>`;
+function gRow(x, note){
+  const g = G();
+  return `<li class="gr">
+    <div class="gl">${x.picked ? '<span class="star" aria-hidden="true">★</span>' : ''}<b>${esc(L(x.it.label))}</b>
+      <span class="gfull small muted">${esc(L(x.it.t))}</span></div>
+    <div class="gm"><span class="tag">${g.nowShort}</span>${gDots(x.now)}<span class="tag">${g.goalShort}</span>${gDots(x.goal, 'goal')}</div>
+    ${note ? `<div class="gnote small">${note}</div>` : ''}
+  </li>`;
+}
+function gCard(title, lead, rows, empty, cls){
+  return `<div class="card gcard ${cls || ''}"><h2>${title}</h2><p class="muted small">${lead}</p>
+    ${rows.length ? `<ul class="glist">${rows.join('')}</ul>` : `<p class="small">${empty}</p>`}</div>`;
+}
+
+function goalsUrl(answers, picks, person){
+  return location.origin + location.pathname + location.search + '#v=cile-' + answers.join('') + '-' + picks.map(i => i.toString(36)).join('') + '-' + person;
+}
+function renderGoalsResults(testId, answers, picks, opts = {}, keepScroll){
+  view = 'results'; currentTestId = null;
+  rerender = () => renderGoalsResults(testId, answers, picks, opts, true);
+  const t = TESTS[testId], u = T(), g = G();
+  const a = goalsAnalysis(answers, picks);
+  history.replaceState(null, '', location.pathname + location.search + '#v=cile-' + answers.join('') + '-' + picks.map(i => i.toString(36)).join('') + '-' + opts.person);
+
+  const strengths = a.strengths.map(x => gRow(x, x.picked ? esc(g.alsoImportant) : ''));
+  const improve = a.improve.map(x => gRow(x, esc(g.move(x.gap))));
+  const important = a.important.map(x => gRow(x, esc(x.gap > 0 ? g.move(x.gap) : x.gap === 0 ? g.there : g.above)));
+  const less = a.less.map(x => gRow(x, esc(g.reduce(-x.gap))));
+
+  const overview = GOALS_SECTIONS.map((s, si) => `<h3 class="psec">${si + 1}. ${esc(L(s.title))}</h3>
+    <ul class="glist compact">${a.items.filter(x => x.it.section === si).map(x => gRow(x, '')).join('')}</ul>`).join('');
+
+  const who = gPersonLabel(opts.person) + (opts.personName ? ` · ${opts.personName}` : '');
+  const header = opts.shared
+    ? `<p class="muted">${u.shared} · ${g.relation}: ${esc(who)}</p>`
+    : `<p class="muted">${opts.name ? esc(opts.name) + ' · ' : ''}${new Date().toLocaleDateString(u.locale)} · ${g.relation}: ${esc(who)}</p>`;
+
+  const own = opts.own ? store.get(storeKey(testId)) : null;
+  const note = own && own.note ? own.note : '';
+  const stepCard = opts.shared ? '' : `<div class="card gcard gstep"><h2>${g.step}</h2><p class="muted small">${g.stepLead}</p>
+      <textarea id="gnote" rows="3" placeholder="${esc(g.stepPh)}">${esc(note)}</textarea>
+      <div class="print-only gnote-print">${note ? esc(note).replace(/\n/g, '<br>') : '<span class="line"></span><span class="line"></span><span class="line"></span>'}</div>
+    </div>`;
+
+  render(`
+    <button class="btn link no-print" data-home>${u.home}</button>
+    <h1>${g.resultsTitle}</h1>
+    ${header}
+    <div class="card note no-print" style="box-shadow:none">${g.howTo}</div>
+    ${gCard(g.strengths, g.strengthsLead, strengths, g.noStrengths, 'gs')}
+    ${gCard(g.improve, g.improveLead, improve, g.noImprove, 'gi')}
+    ${gCard(g.important, g.importantLead, important, g.noImportant, 'gp')}
+    ${less.length ? gCard(g.less, g.lessLead, less, '', 'gl2') : ''}
+    ${stepCard}
+    <div class="card gcard goverview">
+      <details><summary>${g.overview}</summary>${overview}</details>
+    </div>
+    <div class="results-actions no-print">
+      <div class="row">
+        <button class="btn primary" data-gpdf>${g.pdf}</button>
+        <button class="btn" data-copylink>${u.copyLink}</button>
+        <button class="btn" data-csv>${u.csv}</button>
+        ${opts.shared ? `<button class="btn" data-home>${u.takeIt}</button>` : `<button class="btn" data-restart="${t.id}">${u.retake}</button>`}
+      </div>
+      <p class="small muted">${g.pdfHint}</p>
+    </div>
+    <footer>${esc(L(t.credit))}<br>${u.notSent}</footer>
+  `, keepScroll);
+
+  const ta = document.getElementById('gnote');
+  if (ta) ta.addEventListener('input', () => {
+    const s = store.get(storeKey(testId));
+    if (s && opts.own) { s.note = ta.value; store.set(storeKey(testId), s); }
+    const pr = app.querySelector('.gnote-print');
+    pr.innerHTML = ta.value.trim() ? esc(ta.value).replace(/\n/g, '<br>') : '<span class="line"></span><span class="line"></span><span class="line"></span>';
+  });
+  app.querySelector('[data-gpdf]').onclick = () => {
+    const old = document.title;
+    const safe = (opts.name || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '');
+    document.title = g.pdfName + (safe ? '-' + safe : '');
+    window.addEventListener('afterprint', () => { document.title = old; }, { once: true });
+    window.print();
+  };
+  app.querySelector('[data-copylink]').onclick = () => copyText(goalsUrl(answers, picks, opts.person));
+  app.querySelector('[data-csv]').onclick = () => downloadGoalsCSV(answers, picks, opts);
+}
+
+function downloadGoalsCSV(answers, picks, opts){
+  const u = T(), g = G(), n = gN();
+  const head = [...u.csvHead, g.csvPerson];
+  const row = [opts.name || '', new Date().toISOString().slice(0, 10), 'cile', lang, gPersonLabel(opts.person)];
+  GOALS_ITEMS.forEach((it, i) => {
+    head.push(`${g.nowShort}: ${L(it.label)}`); row.push(answers[i]);
+    head.push(`${g.goalShort}: ${L(it.label)}`); row.push(answers[n + i]);
+  });
+  head.push(g.csvPicked); row.push(picks.map(i => L(GOALS_ITEMS[i].label)).join(' | '));
+  const q = v => '"' + String(v).replace(/"/g, '""') + '"';
+  const csv = '﻿' + head.map(q).join(u.csvSep) + '\r\n' + row.map(q).join(u.csvSep) + '\r\n';
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const el = document.createElement('a');
+  const safe = (opts.name || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '');
+  el.href = URL.createObjectURL(blob);
+  el.download = `${g.pdfName}-${safe || (lang === 'en' ? 'results' : 'vysledky')}.csv`;
+  document.body.appendChild(el); el.click(); el.remove();
+  setTimeout(() => URL.revokeObjectURL(el.href), 1000);
+}
+
 function startFresh(testId, name){
   state = { testId, answers: Array(itemCount(TESTS[testId])).fill(null), index: 0, name: name || '' };
   draftName = '';
@@ -1946,22 +2528,25 @@ app.addEventListener('click', e => {
   if ('home' in d) { draftName = ''; return renderHome(); }
   if (d.start) return renderIntro(d.start);
   if (d.copytest) return copyText(testUrl(d.copytest), T().copiedTest);
-  if (d.begin) return startFresh(d.begin, (document.getElementById('name') || {}).value || '');
-  if (d.resume) {
-    state = store.get(storeKey(d.resume));
-    const miss = state.answers.findIndex(a => a == null);
-    state.index = miss === -1 ? state.answers.length - 1 : miss;
-    return renderQuestion();
+  if (d.begin) {
+    if (isGoals(TESTS[d.begin])) return startGoals(d.begin);
+    return startFresh(d.begin, (document.getElementById('name') || {}).value || '');
+  }
+  if (d.resume) return resumeSaved(store.get(storeKey(d.resume)));
+  if (d.g) return goalsAnswer(d.g, Number(d.v));
+  if ('gpicks' in d) { clearTimeout(advanceTimer); return renderPicks(); }
+  if (d.gpick != null) return togglePick(Number(d.gpick));
+  if ('gback' in d) { state.index = gN() - 1; return renderQuestion(); }
+  if ('gfinish' in d) {
+    state.finished = true; save();
+    return renderGoalsResults(state.testId, state.answers, state.picks, { own: true, name: state.name, person: state.person, personName: state.personName });
   }
   if (d.restart) {
     if (!confirm(T().confirmRestart)) return;
     store.del(storeKey(d.restart));
     return renderIntro(d.restart);
   }
-  if (d.results) {
-    const s = store.get(storeKey(d.results));
-    return renderResults(d.results, s.answers, { name: s.name });
-  }
+  if (d.results) return openSavedResults(d.results, store.get(storeKey(d.results)));
   if (d.answer) return answer(Number(d.answer));
   if ('prev' in d) { clearTimeout(advanceTimer); state.index = Math.max(0, state.index - 1); save(); return renderQuestion(); }
   if ('next' in d) { clearTimeout(advanceTimer); state.index++; save(); return renderQuestion(); }
@@ -1971,7 +2556,9 @@ app.addEventListener('click', e => {
 
 document.addEventListener('keydown', e => {
   if (view !== 'question' || e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
   const t = TESTS[state.testId];
+  if (isGoals(t)) return goalsKey(e);
   const n = parseInt(e.key, 10);
   if (n >= 1 && n <= t.scale.length) { e.preventDefault(); return answer(n); }
   if (e.key === 'ArrowLeft' && state.index > 0) { clearTimeout(advanceTimer); state.index--; save(); renderQuestion(); }
@@ -1985,19 +2572,28 @@ window.addEventListener('beforeprint', () => document.querySelectorAll('details'
 /* Otevření dotazníku přes jeho odkaz: dokončený → výsledky, rozpracovaný → pokračovat, jinak pokyny */
 function openTest(id){
   const saved = store.get(storeKey(id));
-  const done = saved ? saved.answers.filter(a => a != null).length : 0;
-  if (saved && done === itemCount(TESTS[id])) return renderResults(id, saved.answers, { name: saved.name });
-  if (done > 0) {
-    state = saved;
-    const miss = state.answers.findIndex(a => a == null);
-    state.index = miss === -1 ? state.answers.length - 1 : miss;
-    return renderQuestion();
-  }
+  const { done, complete } = progressOf(TESTS[id], saved);
+  if (complete) return openSavedResults(id, saved);
+  if (done > 0 || (saved && saved.picks && saved.picks.length)) return resumeSaved(saved);
   return renderIntro(id);
 }
 
 /* Načtení: odkaz s výsledky (#v=hexaco60-1234...), odkaz na dotazník (#asertivita) nebo úvodní stránka */
 function route(){
+  const gm = location.hash.match(/^#v=([a-z0-9]+)-(\d+)-([0-9a-z]{0,5})-(\d)$/i);
+  if (gm && isGoals(TESTS[gm[1]])) {
+    const id = gm[1], n = gN();
+    const answers = gm[2].split('').map(Number);
+    const picks = [...gm[3]].map(c => parseInt(c, 36)).filter(i => i < n).sort((a, b) => a - b);
+    const person = Number(gm[4]);
+    if (answers.length === 2 * n && answers.every(a => a >= 1 && a <= 5) && person < GOALS_PERSONS.length) {
+      const own = store.get(storeKey(id));
+      const isOwn = own && own.finished && own.answers.join('') === gm[2] && (own.picks || []).join() === picks.join();
+      return renderGoalsResults(id, answers, picks, isOwn
+        ? { own: true, name: own.name, person: own.person, personName: own.personName }
+        : { shared: true, person });
+    }
+  }
   const m = location.hash.match(/^#v=([a-z0-9]+)-(\d+)$/i);
   if (m && TESTS[m[1]]) {
     const t = TESTS[m[1]];
@@ -2012,7 +2608,7 @@ function route(){
   const id = tm && idFromSlug(tm[1]);
   if (id) {
     // už jsme na této obrazovce (adresu jsme nastavili sami) → nic nepřekreslovat
-    if ((view === 'intro' || view === 'question') && currentTestId === id) return;
+    if ((view === 'intro' || view === 'question' || view === 'picks') && currentTestId === id) return;
     return openTest(id);
   }
   renderHome();

@@ -11,6 +11,15 @@ Aktuálně obsahuje (česky i anglicky):
 - **Asertivita (SRAS)** – 30 výroků, jedno celkové skóre na škále 1–6 (Simple Rathus Assertiveness Schedule, McCormick 1985, podle Rathus 1973). Upraveno pro dospívající: výroky 2, 11, 12, 13 a 19 jsou přeformulované, v 27 je kino místo divadla. Český překlad je pracovní a nevalidovaný. Výsledky upozorňují, že výroky 7 a 28 měří spíš bojovnost než asertivitu.
 - **Mezilidské dovednosti (ICQ)** – 40 situací, 5 oblastí po 8 položkách: navazování vztahů, svěřování se, ohrazení se, podpora druhých, zvládání konfliktů; škála 1–5 („jak dobře to zvládám“), bez obrácených položek (Interpersonal Competence Questionnaire, Buhrmester, Furman, Wittenberg & Reis, 1988). Upraveno pro dospívající: „companion“ → kamarád/ka, místo telefonování i psaní zpráv, spolubydlící → spolužáci, volba povolání → volba školy či oboru. Český překlad je pracovní a nevalidovaný.
 - **Komunikační kompetence (ICCS)** – 30 výroků, 10 oblastí po 3 výrocích (sebeodhalení, empatie, sociální uvolněnost, asertivita, zaměření na druhého, vedení rozhovoru, výraznost, podporující komunikace, bezprostřednost, prosazení cílů) a celkové skóre; škála 1–5 podle četnosti (Interpersonal Communication Competence Scale, Rubin & Martin, 1994). Výroky jsou promíchané podle doporučení autorů. Výrok „Při rozhovoru se mi toulají myšlenky“ se skóruje obráceně, přestože ho původní klíč neoznačuje. Oblasti mají nízkou spolehlivost (α 0,41–0,72), výsledky na to upozorňují. Český překlad je pracovní a nevalidovaný.
+- **Moje komunikační cíle** – reflexní dotazník (autor: Matěj Kůs), nejde o standardizovaný test. Student si zvolí jednoho blízkého člověka (kamarád/ka, rodič, sourozenec, partner/ka, někdo jiný) a u 28 výroků v 6 oblastech odpoví dvakrát: *reálně* (jak to je teď) a *cíl* (jak je to pro něj důležité), obojí 1–5. Nakonec vybere nejvýš 5 nejdůležitějších cílů. Přehled ukazuje:
+  - **silné stránky** – nejvýš 5 výroků s nejvyšším „reálně“ (aspoň 4); při shodě mají přednost vybrané cíle, pak vyšší cíl,
+  - **prostor pro zlepšení** – nejvýš 5 výroků s největším rozdílem cíl − reálně (aspoň 1); vybrané cíle (★) mají přednost: k rozdílu se jim přičítá 1,5, takže předběhnou nevybrané s rozdílem o 1 vyšším, ale ne o 2,
+  - **co je pro mě nejdůležitější** – vybrané cíle a jak daleko k nim student má,
+  - **kde chci ubrat** – výroky, kde je „reálně“ výš než cíl (zobrazí se, jen pokud nějaké jsou),
+  - **můj první krok** – pole pro vlastní předsevzetí (v PDF se vytiskne, nebo zůstanou linky na ruční doplnění),
+  - **celkový přehled** všech výroků.
+
+  Tlačítko „Uložit jako PDF“ otevře tisk prohlížeče (jako tiskárnu zvolit „Uložit jako PDF“); výsledek má 3–4 strany A4. Odkaz na výsledky nese odpovědi, výběr i typ vztahu, ale ne jména.
 
 ## Odkazy na jednotlivé dotazníky
 
@@ -25,6 +34,7 @@ Každý dotazník má vlastní odkaz, který otevře rovnou jeho pokyny:
 | Asertivita (SRAS) | `…/osobnostni-dotazniky/#asertivita` |
 | Mezilidské dovednosti (ICQ) | `…/osobnostni-dotazniky/#icq` |
 | Komunikační kompetence (ICCS) | `…/osobnostni-dotazniky/#iccs` |
+| Moje komunikační cíle | `…/osobnostni-dotazniky/#cile` |
 
 Anglickou verzi otevře `?lang=en` před `#`, např. `…/osobnostni-dotazniky/?lang=en#asertivita`. Odkaz se dá zkopírovat i tlačítkem „🔗 Odkaz na dotazník“ na úvodní stránce (zkopíruje ho v právě zvoleném jazyce).
 
