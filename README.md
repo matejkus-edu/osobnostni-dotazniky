@@ -8,6 +8,7 @@ Aktuálně obsahuje (česky i anglicky):
 - **HEXACO-100** – 100 výroků, 6 dimenzí, 24 facet + mezilehlá faceta Altruismus (do skóre dimenzí se nezapočítává).
 - **IPIP-NEO-60** – 60 výroků, Velká pětka, 30 facet (Maples-Keller et al., 2019; položky IPIP jsou volné dílo). Český překlad je pracovní a nevalidovaný. Pořadí výroků je střídané: nejdřív první výrok každé facety napříč dimenzemi, pak druhé.
 - **IPIP-NEO-120** – 120 výroků, Velká pětka, 30 facet po 4 výrocích (Johnson, 2014; položky IPIP jsou volné dílo). Český překlad je pracovní a nevalidovaný, výroky společné s IPIP-NEO-60 mají stejné znění. Pořadí výroků je střídané stejně jako u verze 60.
+- **Asertivita (SRAS)** – 30 výroků, jedno celkové skóre na škále 1–6 (Simple Rathus Assertiveness Schedule, McCormick 1985, podle Rathus 1973). Upraveno pro dospívající: výroky 2, 11, 12, 13 a 19 jsou přeformulované, v 27 je kino místo divadla. Český překlad je pracovní a nevalidovaný. Výsledky upozorňují, že výroky 7 a 28 měří spíš bojovnost než asertivitu.
 
 ## Jazyky
 
