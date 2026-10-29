@@ -1601,7 +1601,7 @@ TESTS.iccs = {
 /* =====================================================================
    MOJE KOMUNIKAČNÍ CÍLE – reflexní dotazník (autor: Matěj Kůs)
    Každý výrok se hodnotí dvakrát: „reálně“ (jak to je teď) a „cíl“
-   (jak důležité to je). Na konci si student vybere max. 5 nejdůležitějších cílů.
+   (jak bych chtěl/a, aby to bylo). Na konci si student vybere max. 5 nejdůležitějších cílů.
    Odpovědi: answers[0..n-1] = reálně, answers[n..2n-1] = cíl.
    ===================================================================== */
 const GOALS_SECTIONS = [
@@ -1726,8 +1726,8 @@ TESTS.cile = {
   title: {cs:'Moje komunikační cíle', en:'My Communication Goals'},
   subtitle: {cs:'Jak komunikuji s blízkým člověkem – a jak bych chtěl/a', en:'How I communicate with someone close – and how I’d like to'},
   about: {
-    cs:'Vyberete si jednoho blízkého člověka a u 28 výroků o komunikaci ohodnotíte, jak to je teď a jak důležité je to pro vás jako cíl. Nakonec si zvolíte nejvýš 5 nejdůležitějších cílů. Výsledkem je přehled vašich silných stránek a toho, na čem chcete pracovat, který si můžete uložit jako PDF.',
-    en:'You choose one person close to you and rate 28 statements about communication: how things are now and how important each is to you as a goal. Finally you pick up to 5 most important goals. You get an overview of your strengths and what you want to work on, which you can save as a PDF.'
+    cs:'Vyberete si jednoho blízkého člověka a u 28 výroků o komunikaci ohodnotíte, jak to je teď a jak byste chtěli, aby to bylo. Nakonec si zvolíte nejvýš 5 nejdůležitějších cílů. Výsledkem je přehled vašich silných stránek a toho, na čem chcete pracovat, který si můžete uložit jako PDF.',
+    en:'You choose one person close to you and rate 28 statements about communication: how things are now and how you would like them to be. Finally you pick up to 5 most important goals. You get an overview of your strengths and what you want to work on, which you can save as a PDF.'
   },
   duration: {cs:'cca 10–15 minut', en:'about 10–15 minutes'},
   credit: {
@@ -1738,13 +1738,13 @@ TESTS.cile = {
   instructions: {
     cs:[
       'Vyberte si jednoho konkrétního blízkého člověka – kamaráda nebo kamarádku, rodiče, sourozence, partnera nebo partnerku. Na něj myslete u všech výroků.',
-      'U každého výroku odpovíte dvakrát na škále od 1 (málo) do 5 (hodně). Reálně: nakolik se s tvrzením identifikujete nyní. Cíl: pokud by tvrzení mělo být vaším cílem v komunikaci s vybraným blízkým člověkem, jak důležitý by pro vás tento cíl byl.',
+      'U každého výroku odpovíte dvakrát na škále od 1 (málo) do 5 (hodně). Reálně: nakolik se s tvrzením identifikujete nyní. Cíl: jak byste chtěli, aby to bylo – nakolik byste chtěli, aby tvrzení platilo ve vztahu s vybraným blízkým člověkem.',
       'Některé výroky nemají správnou odpověď – víc není vždycky lépe. Rozhodněte se, co chcete vy.',
       'Na konci si vyberete nejvýš 5 cílů, které jsou pro vás nejdůležitější, a dostanete přehled, který si můžete uložit jako PDF.'
     ],
     en:[
       'Choose one specific person close to you – a friend, a parent, a sibling or a partner. Keep them in mind for every statement.',
-      'You will answer each statement twice on a scale from 1 (a little) to 5 (a lot). Now: how much you identify with the statement at present. Goal: if the statement were your goal in communicating with the person you chose, how important would that goal be to you.',
+      'You will answer each statement twice on a scale from 1 (a little) to 5 (a lot). Now: how much you identify with the statement at present. Goal: how you would like it to be – how much you would like the statement to be true in your relationship with the person you chose.',
       'Some statements have no right answer – more is not always better. Decide what you want.',
       'At the end you pick up to 5 goals that matter most to you and get an overview you can save as a PDF.'
     ]
@@ -2163,7 +2163,7 @@ const GU = {
     personQ:'Na koho budete při vyplňování myslet?', personName:'Kdo to je?', personNamePh:'Zobrazí se jen ve vašem přehledu',
     pickPerson:'Vyberte prosím, na koho budete myslet.',
     thinking:p => `Myslíte na: ${p}`,
-    now:'Reálně', nowHint:'nakolik to platí teď', goal:'Cíl', goalHint:'jak důležité je to pro mě',
+    now:'Reálně', nowHint:'nakolik to platí teď', goal:'Cíl', goalHint:'jak bych chtěl/a, aby to bylo',
     little:'málo', lot:'hodně',
     kbd:'Klávesami 1–5 odpovíte nejdřív „reálně“, pak „cíl“. Šipkami se pohybujete mezi výroky.',
     toPicks:'Pokračovat k výběru →',
@@ -2172,7 +2172,7 @@ const GU = {
     pickedCount:(k, m) => `Vybráno ${k} z ${m}`, backToItems:'← Zpět k výrokům', showOverview:'Zobrazit můj přehled',
     nowShort:'teď', goalShort:'cíl',
     resultsTitle:'Moje komunikační cíle', relation:'Vztah',
-    howTo:'<b>Silné stránky</b> jsou výroky, které jste u „reálně“ ohodnotili nejvýš. <b>Prostor pro zlepšení</b> ukazuje, kde je největší rozdíl mezi tím, jak to je teď, a vaším cílem – cíle, které jste si vybrali jako nejdůležitější (★), mají v pořadí přednost. Nejde o test, přehled je podnět k zamyšlení.',
+    howTo:'<b>Silné stránky</b> jsou výroky, které jste u „reálně“ ohodnotili nejvýš. <b>Prostor pro zlepšení</b> ukazuje, kde je největší rozdíl mezi tím, jak to je teď, a tím, jak byste chtěli, aby to bylo – cíle, které jste si vybrali jako nejdůležitější (★), mají v pořadí přednost. Nejde o test, přehled je podnět k zamyšlení.',
     strengths:'Moje silné stránky', strengthsLead:'V čem jsem ve vztahu s tímto člověkem dobrý/á už teď.',
     noStrengths:'Žádný výrok jste u „reálně“ neohodnotili čtyřkou ani pětkou. V celkovém přehledu najdete, kde máte hodnocení nejvyšší.',
     improve:'Prostor pro zlepšení', improveLead:'Kde je největší rozdíl mezi tím, jak to je teď, a tím, co chci.',
@@ -2192,7 +2192,7 @@ const GU = {
     personQ:'Who will you be thinking of?', personName:'Who is it?', personNamePh:'Shown only in your overview',
     pickPerson:'Please choose who you will be thinking of.',
     thinking:p => `Thinking of: ${p}`,
-    now:'Now', nowHint:'how true this is at the moment', goal:'Goal', goalHint:'how important this is to me',
+    now:'Now', nowHint:'how true this is at the moment', goal:'Goal', goalHint:'how I’d like it to be',
     little:'a little', lot:'a lot',
     kbd:'Keys 1–5 answer “now” first, then “goal”. Use the arrow keys to move between statements.',
     toPicks:'Continue to your choice →',
@@ -2201,7 +2201,7 @@ const GU = {
     pickedCount:(k, m) => `${k} of ${m} selected`, backToItems:'← Back to the statements', showOverview:'Show my overview',
     nowShort:'now', goalShort:'goal',
     resultsTitle:'My Communication Goals', relation:'Relationship',
-    howTo:'<b>Strengths</b> are the statements you rated highest for “now”. <b>Room to grow</b> shows where the gap between how things are now and your goal is biggest – goals you chose as most important (★) come first. This is not a test; the overview is a prompt for reflection.',
+    howTo:'<b>Strengths</b> are the statements you rated highest for “now”. <b>Room to grow</b> shows where the gap between how things are now and how you’d like them to be is biggest – goals you chose as most important (★) come first. This is not a test; the overview is a prompt for reflection.',
     strengths:'My strengths', strengthsLead:'What I already do well in this relationship.',
     noStrengths:'You did not rate any statement 4 or 5 for “now”. The full overview shows where your ratings are highest.',
     improve:'Room to grow', improveLead:'Where the gap between how things are now and what I want is biggest.',
