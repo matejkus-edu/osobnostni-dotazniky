@@ -1239,6 +1239,7 @@ const UI = {
     levels:{low:'spíše nízká', mid:'střední', high:'spíše vysoká'},
     higher:'Vyšší skór:', lower:'Nižší skór:', facets:'Dílčí rysy (facety)',
     print:'Vytisknout / uložit PDF', copyLink:'Zkopírovat odkaz', copied:'Odkaz na výsledky zkopírován', copyPrompt:'Zkopírujte odkaz:',
+    copyTestLink:'🔗 Odkaz na dotazník', copiedTest:'Odkaz na dotazník zkopírován',
     csv:'Stáhnout CSV', takeIt:'Vyplnit dotazník',
     confirmRestart:'Opravdu začít znovu? Dosavadní odpovědi se smažou.',
     notSent:'Výsledky se nikam neodesílají.',
@@ -1266,6 +1267,7 @@ const UI = {
     levels:{low:'rather low', mid:'medium', high:'rather high'},
     higher:'Higher score:', lower:'Lower score:', facets:'Facets',
     print:'Print / save as PDF', copyLink:'Copy link', copied:'Link to results copied', copyPrompt:'Copy the link:',
+    copyTestLink:'🔗 Link to this questionnaire', copiedTest:'Link to the questionnaire copied',
     csv:'Download CSV', takeIt:'Take the questionnaire',
     confirmRestart:'Start over? Your current answers will be deleted.',
     notSent:'Results are never sent anywhere.',
@@ -1368,12 +1370,32 @@ function toast(msg){
   clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2200);
 }
 function clearHash(){ history.replaceState(null, '', location.pathname + location.search); }
+
+/* Vlastní odkaz každého dotazníku: …/#asertivita, …/#hexaco-60 atd. */
+const SLUGS = { hexaco60:'hexaco-60', hexaco100:'hexaco-100', ipipneo60:'ipip-neo-60', ipipneo120:'ipip-neo-120', sras:'asertivita' };
+const slugOf = id => SLUGS[id] || id;
+const idFromSlug = sl => {
+  sl = decodeURIComponent(sl).toLowerCase();
+  return Object.keys(TESTS).find(id => id === sl || slugOf(id) === sl) || null;
+};
+function testUrl(id){
+  return location.origin + location.pathname + (lang === 'en' ? '?lang=en' : '') + '#' + slugOf(id);
+}
+/* Nastaví adresu na odkaz dotazníku. Z úvodní stránky přidá záznam do historie,
+   aby fungovalo tlačítko Zpět v prohlížeči; jinak jen přepíše adresu. */
+function setTestHash(id){
+  const h = '#' + slugOf(id);
+  if (location.hash === h) return;
+  const url = location.pathname + location.search + h;
+  if (!location.hash) history.pushState(null, '', url); else history.replaceState(null, '', url);
+}
 function resultsUrl(test, answers){
   return location.origin + location.pathname + location.search + '#v=' + test.id + '-' + answers.join('');
 }
 
 let state = null;      // { testId, answers, index, name }
 let view = 'home';
+let currentTestId = null;   // dotazník právě otevřený v pokynech nebo otázkách
 let advanceTimer = null;
 let draftName = '';
 let rerender = () => renderHome();
@@ -1384,7 +1406,7 @@ function save(){ if (state) store.set(storeKey(state.testId), state); }
    OBRAZOVKY / SCREENS
    ===================================================================== */
 function renderHome(){
-  view = 'home'; state = null; clearHash();
+  view = 'home'; state = null; currentTestId = null; clearHash();
   rerender = () => renderHome();
   const u = T();
   const cards = TEST_ORDER.map(id => TESTS[id]).map(t => {
@@ -1405,7 +1427,8 @@ function renderHome(){
       <p>${esc(L(t.about))}</p>
       <p class="small muted">${u.meta(n, esc(L(t.duration)))}</p>
       ${t.items[lang] ? '' : `<p class="note small">${u.onlyCs}</p>`}
-      <div class="row" style="margin-top:14px">${actions}</div>
+      <div class="row" style="margin-top:14px">${actions}
+        <button class="btn link" data-copytest="${t.id}" title="${esc(testUrl(t.id))}">${u.copyTestLink}</button></div>
     </div>`;
   }).join('');
   render(`
@@ -1417,8 +1440,9 @@ function renderHome(){
 }
 
 function renderIntro(testId){
-  view = 'intro';
+  view = 'intro'; currentTestId = testId;
   rerender = () => renderIntro(testId);
+  setTestHash(testId);
   const t = TESTS[testId], u = T();
   render(`
     <button class="btn link" data-home>${u.back}</button>
@@ -1441,8 +1465,9 @@ function renderIntro(testId){
 }
 
 function renderQuestion(){
-  view = 'question';
+  view = 'question'; currentTestId = state.testId;
   rerender = () => renderQuestion();
+  setTestHash(state.testId);
   const t = TESTS[state.testId], u = T();
   const items = L(t.items);
   const i = state.index, n = items.length;
@@ -1559,10 +1584,10 @@ function renderResults(testId, answers, opts = {}, keepScroll){
 /* =====================================================================
    EXPORT
    ===================================================================== */
-function copyText(text){
+function copyText(text, msg){
   const u = T();
   if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(() => toast(u.copied), () => window.prompt(u.copyPrompt, text));
+    navigator.clipboard.writeText(text).then(() => toast(msg || u.copied), () => window.prompt(u.copyPrompt, text));
   } else {
     window.prompt(u.copyPrompt, text);
   }
@@ -1603,6 +1628,7 @@ app.addEventListener('click', e => {
   const d = b.dataset;
   if ('home' in d) { draftName = ''; return renderHome(); }
   if (d.start) return renderIntro(d.start);
+  if (d.copytest) return copyText(testUrl(d.copytest), T().copiedTest);
   if (d.begin) return startFresh(d.begin, (document.getElementById('name') || {}).value || '');
   if (d.resume) {
     state = store.get(storeKey(d.resume));
@@ -1639,7 +1665,21 @@ document.addEventListener('keydown', e => {
 
 window.addEventListener('beforeprint', () => document.querySelectorAll('details').forEach(d => d.open = true));
 
-/* Načtení: odkaz s výsledky (#v=hexaco60-1234...) nebo úvodní stránka */
+/* Otevření dotazníku přes jeho odkaz: dokončený → výsledky, rozpracovaný → pokračovat, jinak pokyny */
+function openTest(id){
+  const saved = store.get(storeKey(id));
+  const done = saved ? saved.answers.filter(a => a != null).length : 0;
+  if (saved && done === itemCount(TESTS[id])) return renderResults(id, saved.answers, { name: saved.name });
+  if (done > 0) {
+    state = saved;
+    const miss = state.answers.findIndex(a => a == null);
+    state.index = miss === -1 ? state.answers.length - 1 : miss;
+    return renderQuestion();
+  }
+  return renderIntro(id);
+}
+
+/* Načtení: odkaz s výsledky (#v=hexaco60-1234...), odkaz na dotazník (#asertivita) nebo úvodní stránka */
 function route(){
   const m = location.hash.match(/^#v=([a-z0-9]+)-(\d+)$/i);
   if (m && TESTS[m[1]]) {
@@ -1651,9 +1691,17 @@ function route(){
       return renderResults(t.id, answers, { shared: !isOwn, name: isOwn ? own.name : '' });
     }
   }
+  const tm = location.hash.match(/^#\/?([^\/?#]+)$/);
+  const id = tm && idFromSlug(tm[1]);
+  if (id) {
+    // už jsme na této obrazovce (adresu jsme nastavili sami) → nic nepřekreslovat
+    if ((view === 'intro' || view === 'question') && currentTestId === id) return;
+    return openTest(id);
+  }
   renderHome();
 }
 window.addEventListener('hashchange', route);
+window.addEventListener('popstate', route);
 applyLang();
 route();
 </script>
