@@ -1374,8 +1374,164 @@ TESTS.icq = {
   ]
 };
 
+/* Interpersonal Communication Competence Scale (Rubin & Martin, 1994).
+   30 výroků, 10 oblastí po 3 výrocích. Výroky jsou promíchané (autoři to doporučují):
+   nejdřív první výrok každé oblasti, pak druhé, pak třetí. Výrok „My mind wanders…“
+   se skóruje obráceně, i když ho původní klíč neoznačuje (R). */
+TESTS.iccs = {
+  id: 'iccs',
+  title: {cs:'Komunikační kompetence (ICCS)', en:'Communication Competence (ICCS)'},
+  subtitle: {cs:'Deset složek dobré komunikace', en:'Ten components of good communication'},
+  about: {
+    cs:'Dotazník Interpersonal Communication Competence Scale. Ukazuje, jak často se v komunikaci chováte deseti způsoby, které se považují za součást dobré komunikace – od empatie a asertivity po vedení rozhovoru.',
+    en:'The Interpersonal Communication Competence Scale. It shows how often you communicate in ten ways considered part of good communication – from empathy and assertiveness to managing a conversation.'
+  },
+  duration: {cs:'cca 5–7 minut', en:'about 5–7 minutes'},
+  credit: {
+    cs:'Interpersonal Communication Competence Scale: Rubin & Martin (1994), Communication Research Reports 11, 33–44. Výroky jsou promíchané podle doporučení autorů; výrok o toulání myšlenek se skóruje obráceně. Český překlad je pracovní, nevalidovaný.',
+    en:'Interpersonal Communication Competence Scale: Rubin & Martin (1994), Communication Research Reports 11, 33–44. Statements are shuffled as the authors recommend; the statement about the mind wandering is reverse-scored.'
+  },
+  scale: [
+    {v:1, label:{cs:'Téměř nikdy', en:'Almost never'}},
+    {v:2, label:{cs:'Zřídka',      en:'Seldom'}},
+    {v:3, label:{cs:'Někdy',       en:'Sometimes'}},
+    {v:4, label:{cs:'Často',       en:'Often'}},
+    {v:5, label:{cs:'Téměř vždy',  en:'Almost always'}}
+  ],
+  resultsExtra: {
+    cs:'Každá z deseti oblastí stojí jen na třech výrocích, které se navíc u některých oblastí shodují jen málo. Jednotlivá čísla proto berte s velkou rezervou, spolehlivější je celkové skóre. Deset oblastí slouží hlavně jako slovník: pojmenovává, z čeho se dobrá komunikace skládá.',
+    en:'Each of the ten areas rests on only three statements, and for some areas these agree only weakly. Take the individual numbers with a big grain of salt; the overall score is more reliable. The ten areas work mainly as a vocabulary that names what good communication is made of.'
+  },
+  instructions: {
+    cs:[
+      'Najdete zde 30 výroků o tom, jak komunikujete s druhými lidmi.',
+      'U každého zvolte, jak často se takhle chováte.',
+      'Odpovídejte upřímně – podle toho, jak to opravdu děláte, ne jak byste chtěli.',
+      'Odpovězte prosím na všechny výroky.'
+    ],
+    en:[
+      'You will find 30 statements about how you communicate with other people.',
+      'For each one, choose how often you behave this way.',
+      'Be honest – answer according to what you really do, not what you would like to do.',
+      'Please respond to every statement.'
+    ]
+  },
+  items: {
+    cs: [
+      "Nechávám kamarády poznat, jaký/á doopravdy jsem.",
+      "Dokážu se vžít do situace druhých.",
+      "Ve společnosti se cítím dobře.",
+      "Když mi někdo ukřivdí, řeknu mu to.",
+      "Moje rozhovory bývají dost jednostranné.",
+      "V mých rozhovorech plynule přecházíme od jednoho tématu k dalšímu.",
+      "Moji kamarádi poznají, když jsem šťastný/á nebo smutný/á.",
+      "Když s druhými mluvím, spíš popisuji, než abych hodnotil/a nebo soudil/a.",
+      "Moji kamarádi opravdu věří, že mi na nich záleží.",
+      "V komunikaci obvykle dosáhnu toho, co jsem chtěl/a.",
+      "Ostatní vědí, co si myslím.",
+      "Nevím přesně, co druzí cítí.",
+      "V malé skupině lidí se cítím uvolněně.",
+      "Těžko se za sebe postavím.",
+      "Dávám druhým najevo, že rozumím tomu, co říkají.",
+      "V rozhovoru přebírám iniciativu a spoluurčuji, o čem se bude mluvit.",
+      "Těžko hledám správná slova, abych vyjádřil/a, co chci.",
+      "S druhými mluvím jako s rovnými.",
+      "Když s někým mluvím, snažím se mu dívat do očí.",
+      "Dokážu druhé přesvědčit o svém názoru.",
+      "Dávám druhým najevo, jak se cítím.",
+      "Ostatní mají pocit, že jim rozumím.",
+      "Mezi cizími lidmi se cítím nejistě.",
+      "Hájím svá práva.",
+      "Při rozhovoru se mi toulají myšlenky.",
+      "Při rozhovoru s kamarády vnímám nejen to, co říkají, ale i to, co neřeknou.",
+      "Umím se dobře vyjádřit slovy.",
+      "Ostatní by mě popsali jako vřelého člověka.",
+      "Říkám lidem, když se jim cítím blízký/á.",
+      "Těžko druhé přesvědčím, aby udělali, co chci."
+    ],
+    en: [
+      "I allow friends to see who I really am.",
+      "I can put myself in others’ shoes.",
+      "I am comfortable in social situations.",
+      "When I’ve been wronged, I confront the person who wronged me.",
+      "My conversations are pretty one-sided.",
+      "My conversations are characterized by smooth shifts from one topic to the next.",
+      "My friends can tell when I am happy or sad.",
+      "My communication is usually descriptive, not evaluative (I describe rather than judge).",
+      "My friends truly believe that I care about them.",
+      "I accomplish my communication goals.",
+      "Other people know what I am thinking.",
+      "I don’t know exactly what others are feeling.",
+      "I feel relaxed in small group gatherings.",
+      "I have trouble standing up for myself.",
+      "I let others know that I understand what they say.",
+      "I take charge of conversations I’m in by negotiating what topics we talk about.",
+      "It’s difficult to find the right words to express myself.",
+      "I communicate with others as though they’re equals.",
+      "I try to look others in the eye when I speak with them.",
+      "I can persuade others to my position.",
+      "I reveal how I feel to others.",
+      "Other people think that I understand them.",
+      "I feel insecure in groups of strangers.",
+      "I stand up for my rights.",
+      "My mind wanders during conversations.",
+      "In conversations with friends, I perceive not only what they say but what they don’t say.",
+      "I express myself well verbally.",
+      "Others would describe me as warm.",
+      "I tell people when I feel close to them.",
+      "I have trouble convincing others to do what I want them to do."
+    ]
+  },
+  factors: [
+    { id:'T', name:'Celková komunikační kompetence', en:'Overall communication competence', items:'1 11 21 2 12R 22 3 13 23R 4 14R 24 5R 15 25R 6 16 26 7 17R 27 8 18 28 9 19 29 10 20 30R',
+      high:{cs:'Celkově se v komunikaci s druhými cítí schopní a jistí.', en:'Overall, they feel capable and confident when communicating with others.'},
+      low:{cs:'Komunikace s druhými je pro ně celkově náročnější.', en:'Overall, communicating with others is harder for them.'},
+      facets:[] },
+    { id:'SD', name:'Sebeodhalení', en:'Self-disclosure', items:'1 11 21',
+      high:{cs:"Nechávají druhé nahlédnout, co si myslí a co cítí.", en:"They let others see what they think and feel."},
+      low:{cs:"O svých myšlenkách a pocitech mluví málo, druzí je hůř odhadují.", en:"They say little about their thoughts and feelings, so others find them harder to read."},
+      facets:[] },
+    { id:'EM', name:'Empatie', en:'Empathy', items:'2 12R 22',
+      high:{cs:"Dokážou se vcítit do druhých a vnímat, co prožívají.", en:"They can put themselves in others’ shoes and sense what they are going through."},
+      low:{cs:"Hůř odhadují, co druzí cítí, a těžko se vžívají do jejich situace.", en:"They find it harder to tell what others feel or to imagine their situation."},
+      facets:[] },
+    { id:'SR', name:'Sociální uvolněnost', en:'Social relaxation', items:'3 13 23R',
+      high:{cs:"Ve společnosti, i mezi cizími lidmi, se cítí uvolněně.", en:"They feel at ease in company, even among strangers."},
+      low:{cs:"Ve společnosti, zvlášť mezi neznámými lidmi, bývají nesví a nejistí.", en:"In company, especially among strangers, they tend to feel uneasy and insecure."},
+      facets:[] },
+    { id:'AS', name:'Asertivita', en:'Assertiveness', items:'4 14R 24',
+      high:{cs:"Umějí se za sebe postavit a ozvat se, když jim někdo ukřivdí.", en:"They stand up for themselves and speak up when they have been wronged."},
+      low:{cs:"Těžko se za sebe postaví a křivdy spíš nechají být.", en:"They find it hard to stand up for themselves and tend to let wrongs go."},
+      facets:[] },
+    { id:'AL', name:'Zaměření na druhého', en:'Altercentrism', items:'5R 15 25R',
+      high:{cs:"V rozhovoru se soustředí na druhého a dávají najevo, že mu rozumějí.", en:"In conversation they focus on the other person and show that they understand."},
+      low:{cs:"Rozhovory s nimi bývají jednostranné nebo se myšlenkami toulají jinde.", en:"Their conversations tend to be one-sided, or their mind wanders."},
+      facets:[] },
+    { id:'IM', name:'Vedení rozhovoru', en:'Interaction management', items:'6 16 26',
+      high:{cs:"Rozhovor jim plyne, plynule přecházejí mezi tématy a vnímají i to, co zůstalo nevyřčeno.", en:"Conversations flow, topics shift smoothly and they notice what is left unsaid."},
+      low:{cs:"Rozhovor se jim hůř udržuje a usměrňuje, přechody mezi tématy bývají kostrbaté.", en:"They find conversations harder to keep going and steer, and topic changes feel clumsy."},
+      facets:[] },
+    { id:'EX', name:'Výraznost', en:'Expressiveness', items:'7 17R 27',
+      high:{cs:"Dobře vyjadřují myšlenky i pocity, druzí z nich snadno vyčtou, jak jim je.", en:"They express thoughts and feelings well, and others can easily tell how they feel."},
+      low:{cs:"Hledají slova a jejich pocity nejsou na první pohled znát.", en:"They struggle to find words, and their feelings are not easy to see."},
+      facets:[] },
+    { id:'SU', name:'Podporující komunikace', en:'Supportiveness', items:'8 18 28',
+      high:{cs:"Jednají s druhými jako s rovnými, spíš popisují než soudí a působí vřele.", en:"They treat others as equals, describe rather than judge, and come across as warm."},
+      low:{cs:"Snadněji druhé hodnotí nebo soudí a mohou působit odměřeně.", en:"They judge others more readily and can come across as distant."},
+      facets:[] },
+    { id:'IY', name:'Bezprostřednost', en:'Immediacy', items:'9 19 29',
+      high:{cs:"Dávají najevo blízkost a zájem – očním kontaktem i slovy.", en:"They show closeness and interest, through eye contact and in words."},
+      low:{cs:"Blízkost a zájem dávají najevo méně, i když je mohou cítit.", en:"They show closeness and interest less, even if they feel it."},
+      facets:[] },
+    { id:'EC', name:'Prosazení cílů', en:'Environmental control', items:'10 20 30R',
+      high:{cs:"V komunikaci obvykle dosáhnou toho, co chtějí, a dokážou druhé přesvědčit.", en:"They usually achieve what they want in communication and can persuade others."},
+      low:{cs:"Hůř přesvědčují druhé a v komunikaci často nedosáhnou toho, co chtěli.", en:"They find it harder to persuade others and often fall short of their communication goals."},
+      facets:[] }
+  ]
+};
+
 /* Pořadí dotazníků na úvodní stránce */
-const TEST_ORDER = ['hexaco60', 'hexaco100', 'ipipneo60', 'ipipneo120', 'sras', 'icq'];
+const TEST_ORDER = ['hexaco60', 'hexaco100', 'ipipneo60', 'ipipneo120', 'sras', 'icq', 'iccs'];
 
 /* =====================================================================
    TEXTY ROZHRANÍ / UI STRINGS
@@ -1533,7 +1689,7 @@ function toast(msg){
 function clearHash(){ history.replaceState(null, '', location.pathname + location.search); }
 
 /* Vlastní odkaz každého dotazníku: …/#asertivita, …/#hexaco-60 atd. */
-const SLUGS = { hexaco60:'hexaco-60', hexaco100:'hexaco-100', ipipneo60:'ipip-neo-60', ipipneo120:'ipip-neo-120', sras:'asertivita', icq:'icq' };
+const SLUGS = { hexaco60:'hexaco-60', hexaco100:'hexaco-100', ipipneo60:'ipip-neo-60', ipipneo120:'ipip-neo-120', sras:'asertivita', icq:'icq', iccs:'iccs' };
 const slugOf = id => SLUGS[id] || id;
 const idFromSlug = sl => {
   sl = decodeURIComponent(sl).toLowerCase();
