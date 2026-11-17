@@ -87,6 +87,18 @@ summary{cursor:pointer;font-weight:600;font-size:.92rem;color:var(--accent)}
 .toast.show{opacity:1}
 footer{margin-top:40px;font-size:.8rem;color:var(--muted);text-align:center}
 
+.sx{margin:18px 0;padding:16px;border-radius:14px;background:var(--accent-soft);border:2px solid var(--accent)}
+.sx-lead{font-weight:700;font-size:1.05rem;margin:0 0 12px}
+.sx-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sx-card{background:var(--card);border-radius:12px;padding:12px 14px;border:1.5px solid var(--line);display:flex;flex-direction:column}
+.sx-card p{margin:.3em 0 10px;flex:1}
+.sx-now{border-top:6px solid var(--accent)}
+.sx-goal{border-top:6px dashed var(--accent)}
+.sx-tag{font-weight:800;font-size:1.2rem;text-transform:uppercase;letter-spacing:.04em;color:var(--accent)}
+.sx-demo{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.sx-demo .sopt{padding:5px 0;font-size:.85rem;text-align:center;cursor:default;border-radius:8px}
+@media (max-width:520px){ .sx-grid{grid-template-columns:1fr} }
+
 /* Moje komunikační cíle */
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:999px;padding:.4em .9em;cursor:pointer;background:var(--card)}
@@ -1740,16 +1752,22 @@ TESTS.cile = {
   instructions: {
     cs:[
       'Vyberte si typ vztahu – kamarádské, rodinné, nebo partnerské vztahy. U všech výroků myslete na tento typ vztahů obecně, ne na jednoho konkrétního člověka. „Blízký člověk“ ve výrocích znamená kohokoli, s kým máte tento typ vztahu.',
-      'U každého výroku odpovíte dvakrát na škále od 1 (málo) do 5 (hodně). Reálně: nakolik se s tvrzením identifikujete nyní. Cíl: jak byste chtěli, aby to bylo – nakolik byste chtěli, aby tvrzení platilo ve vybraném typu vztahů.',
       'Některé výroky nemají správnou odpověď – víc není vždycky lépe. Rozhodněte se, co chcete vy.',
       'Na konci si vyberete nejvýš 5 cílů, které jsou pro vás nejdůležitější, a dostanete přehled, který si můžete uložit jako PDF.'
     ],
     en:[
       'Choose a type of relationship – friendships, family or a romantic relationship. For every statement, think of this type of relationship in general, not of one specific person. “The person” in the statements means anyone you have this kind of relationship with.',
-      'You will answer each statement twice on a scale from 1 (a little) to 5 (a lot). Now: how much you identify with the statement at present. Goal: how you would like it to be – how much you would like the statement to be true in the type of relationship you chose.',
       'Some statements have no right answer – more is not always better. Decide what you want.',
       'At the end you pick up to 5 goals that matter most to you and get an overview you can save as a PDF.'
     ]
+  },
+  /* Vysvětlení dvojího hodnocení – v úvodu se zobrazí jako výrazný blok za první odrážkou */
+  scaleExplain: {
+    lead:{cs:'U každého výroku odpovíte dvakrát na škále od 1 (málo) do 5 (hodně).',
+          en:'You will answer each statement twice on a scale from 1 (a little) to 5 (a lot).'},
+    now:{cs:'nakolik se s tvrzením identifikujete nyní.', en:'how much you identify with the statement at present.'},
+    goal:{cs:'jak byste chtěli, aby to bylo – nakolik byste chtěli, aby tvrzení platilo ve vybraném typu vztahů.',
+          en:'how you would like it to be – how much you would like the statement to be true in the type of relationship you chose.'}
   },
   items: { cs: GOALS_ITEMS.map(i => i.t.cs), en: GOALS_ITEMS.map(i => i.t.en) },
   factors: []
@@ -1979,6 +1997,22 @@ function renderHome(){
   `);
 }
 
+function instructionsHtml(t){
+  const list = L(t.instructions);
+  const li = xs => xs.length ? `<ul class="clean">${xs.map(i => `<li>${esc(i)}</li>`).join('')}</ul>` : '';
+  if (!t.scaleExplain) return li(list);
+  const x = t.scaleExplain, g = G();
+  const demo = cls => `<div class="sx-demo" aria-hidden="true">${[1, 2, 3, 4, 5].map(v => `<span class="sopt ${cls}" ${v === 4 ? 'aria-pressed="true"' : ''}>${v}</span>`).join('')}</div>`;
+  return li(list.slice(0, 1)) + `
+    <div class="sx">
+      <p class="sx-lead">${esc(L(x.lead))}</p>
+      <div class="sx-grid">
+        <div class="sx-card sx-now"><div class="sx-tag">1 · ${g.now}</div><p>${esc(L(x.now))}</p>${demo('now')}</div>
+        <div class="sx-card sx-goal"><div class="sx-tag">2 · ${g.goal}</div><p>${esc(L(x.goal))}</p>${demo('goal')}</div>
+      </div>
+    </div>` + li(list.slice(1));
+}
+
 function renderIntro(testId){
   view = 'intro'; currentTestId = testId;
   rerender = () => renderIntro(testId);
@@ -1990,7 +2024,7 @@ function renderIntro(testId){
     <div class="card">
       <h2>${u.instructions}</h2>
       ${t.items[lang] ? '' : `<p class="note">${u.onlyCs}</p>`}
-      <ul class="clean">${L(t.instructions).map(i => `<li>${esc(i)}</li>`).join('')}</ul>
+      ${instructionsHtml(t)}
       ${isGoals(t) ? goalsIntroFields() : ''}
       <label class="field">
         <span>${u.nameLabel} <span class="muted small">${u.optional}</span></span>
